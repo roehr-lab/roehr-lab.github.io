@@ -10,6 +10,10 @@
 	<body>
 		<div id="info">
 			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - light probe
+			<h1 >Hello Style!</h1>
+            <p>Add a little style!</p> 
+			<div id="nigh">Hello</div>
+			<canvas id="file"  width="800" height="400" onmousemove={myFunction} ></canvas>
 		</div>
 
 		<!-- Import maps polyfill -->
@@ -268,6 +272,13 @@ for(let i =0; i < 13; i++){
 				
 	}
 
+
+	function myFunction(e) {
+		let x = e.clientX;
+		let y = e.clientY;
+		let coor = "Coordinates: (" + x + "," + y + ")";
+		document.getElementById("nigh").innerHTML = coor;
+	  }
 
 		</script>
 
