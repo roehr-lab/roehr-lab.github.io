@@ -32,7 +32,8 @@ import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 import Stats from 'three/addons/libs/stats.module.js';			
-			let camera, scene, renderer, stats;
+						
+let camera, scene, renderer, stats;
 			let cube, sphere, torus, material , bulbLight, bulbMat, hemiLight;
 
 			let cubeCamera, cubeRenderTarget;
@@ -43,13 +44,14 @@ import Stats from 'three/addons/libs/stats.module.js';
 
 			function init() {
 
+
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				renderer.setAnimationLoop( animation );
 				renderer.outputEncoding = THREE.sRGBEncoding;
 				renderer.toneMapping = THREE.ACESFilmicToneMapping;
-				document.body.appendChild( renderer.domElement );
+				document.body.appendChild( renderer.domElement ); 
 
 				window.addEventListener( 'resize', onWindowResized );
 
@@ -78,31 +80,32 @@ import Stats from 'three/addons/libs/stats.module.js';
 				//
 
 
-        		const bulbGeometry = new THREE.SphereGeometry( 2, 16, 8 );
-				bulbLight = new THREE.PointLight( 0xffee88, 1, 100, 2 );
+        		const bulbGeometry = new THREE.SphereGeometry( 0.5, 10, 8 );
+				bulbLight = new THREE.PointLight( 0x00ee88, 1, 500, 2 );
 
 				bulbMat = new THREE.MeshStandardMaterial( {
 					emissive: 0xffffee,
-					emissiveIntensity: 1,
+					emissiveIntensity: 100,
 					color: 0x000000
 				} );
 				bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
-				bulbLight.position.set( -10, 50, 50 );
+				bulbLight.position.set( -30, 100, 0 );
 				bulbLight.castShadow = true;
-				scene.add( bulbLight );
+				scene.add( bulbLight );  
 
-				hemiLight = new THREE.HemisphereLight( 0xddeeff, 0x0f0e0d, 0.02 );
+				hemiLight = new THREE.HemisphereLight( 0xddeeff, 0x0f0e0d, 0.09 );
 				scene.add( hemiLight );
 
-        		bulbLight = new THREE.PointLight( 0xff0000, 1, 100, 2 );
+
+        		bulbLight = new THREE.PointLight( 0xff0000, 1, 500, 2 );
 				bulbMat = new THREE.MeshStandardMaterial( {
 					emissive: 0xffffee,
-					emissiveIntensity: 1,
+					emissiveIntensity: 100,
 					color: 0x000000
 				} );
 				bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
-				bulbLight.position.set( 10, 50, 50 );
-				bulbLight.castShadow = true;
+				bulbLight.position.set( 30, 100, 0 ); 
+				bulbLight.castShadow = true; 
 				scene.add( bulbLight );
 
 				hemiLight = new THREE.HemisphereLight( 0xddeeff, 0x0f0e0d, 0.1 );
@@ -113,14 +116,14 @@ import Stats from 'three/addons/libs/stats.module.js';
 
 				cubeCamera = new THREE.CubeCamera( 1, 1000, cubeRenderTarget );
 
-				//
-
+				//  
+ 				   
 				material = new THREE.MeshStandardMaterial( {
 					envMap: cubeRenderTarget.texture,
 					roughness: 0.02,
 					metalness: 1
 				} );
-
+ 
 				const gui = new GUI();
 				gui.add( material, 'roughness', 0, 1 );
 				gui.add( material, 'metalness', 0, 1 );
@@ -132,13 +135,16 @@ import Stats from 'three/addons/libs/stats.module.js';
 					metalness: 0
 				} );
 
-        		//sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 15, 8 ), material2 );
-				//scene.add( sphere );
+        		sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 2, 2 ), material2 );
+				scene.add( sphere );
+ 
 
 				cube = new THREE.Mesh( new THREE.BoxGeometry( 4, 4, 4 ), material2 );
 				scene.add( cube );
 
 				cube.position.x += 20;
+
+				load(1,2);
 
 				//torus = new THREE.Mesh( new THREE.TorusKnotGeometry( 8, 3, 128, 16 ), material2 );
 				//scene.add( torus );
@@ -188,6 +194,79 @@ import Stats from 'three/addons/libs/stats.module.js';
 				
         
 			}
+			function load(file1, file2){
+				fetch("si.json").then(response =>{
+					if(!response.ok){
+						throw new Error(response.statusText)
+					}
+					return response.json()
+				}).then(data =>{
+					const material2 = {
+						"H": new THREE.MeshStandardMaterial( {
+						roughness: 0.1,
+						metalness: 0,
+						color:0x333333
+					} ),
+						"C":new THREE.MeshStandardMaterial( {
+							roughness: 0.1,
+							metalness: 0,
+							color:0x00ff00
+						} )
+					};
+					const rad = {"H":2,
+								"C":4
+							};
+					
+					
+					for(let i = 0; i < data.length; i++){
+						//console.log(data[i]["pos"]);
+						sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( rad[data[i]["symb"]], 4 ), material2[data[i]["symb"]] );
+						sphere.position.x = data[i]["pos"][0]*10;
+						sphere.position.y = data[i]["pos"][1]*10;
+						sphere.position.z = data[i]["pos"][2]*10;
+						scene.add(sphere);
+					}
+					fetch("bi.json").then(response => {
+						if(!response.ok){
+							throw new Error(response.statusText)
+						}
+						return response.json()
+					}).then(connect =>{
+						const material2 = new THREE.MeshStandardMaterial( {
+							roughness: 0.1,
+							metalness: 0
+						} );		
+						for(let i = 0; i < connect.length; i++){
+							const cylGeom = new THREE.CylinderGeometry( 1, 1, 7, 8 );
+							cylGeom.translate(0,connect[i]["len"]*5,0)
+							cylGeom.rotateX(Math.PI/2);
+							const cylinder = new THREE.Mesh( cylGeom, material2 );
+							const vstart_ = data[connect[i]["j"]]["pos"];
+							const vend = data[connect[i]["i"]]["pos"];
+							//console.log(vend);
+							cylinder.position.set(vstart_[0]*10,vstart_[1]*10,vstart_[2]*10);
+							cylinder.lookAt(vend[0]*10,vend[1]*10,vend[2]*10); 
+							scene.add( cylinder );
+						}
+						//console.log(connect)
+					})
+	
+
+		
+  const can = document.getElementById("file");
+  const ctx = can.getContext("2d");
+  var grd = ctx.createLinearGradient(0,0,700,0);
+grd.addColorStop(0,"red");
+grd.addColorStop(1,"white");
+// Fill with gradient
+
+for(let i =0; i < 13; i++){
+	ctx.fillStyle = getRandomColor();
+	ctx.fillRect(i*80,10,80,80);
+}
+			})
+				
+	}
 
 
 		</script>
