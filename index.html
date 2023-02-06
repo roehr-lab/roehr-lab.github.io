@@ -9,12 +9,11 @@
       name="description"
       content="Web site created using create-react-app"
     />
-    <link rel="apple-touch-icon" href="logo192.png" />
+    <link rel="apple-touch-icon" href="logo.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 	<link type="text/css" rel="stylesheet" href="index.css">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -59,14 +58,15 @@
 		<div id="root"></div>
 
 		<script type="module">
-			await setTimeout(3000);
+			
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 import Stats from 'three/addons/libs/stats.module.js';			
-						
+await setTimeout(3000);
+    // send error to log file				
 let camera, scene, renderer, stats;
 			let cube, sphere, torus, material , bulbLight, bulbMat, hemiLight;
 
