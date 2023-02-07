@@ -117,8 +117,8 @@ let camera, scene, renderer, stats;
 				//
 
 
-        		const bulbGeometry = new THREE.SphereGeometry( 0.5, 10, 8 );
-				bulbLight = new THREE.PointLight( 0x00ee88, 0.1, 500, 2 );
+        		const bulbGeometry = new THREE.SphereGeometry( 0.01, 10, 8 );
+				bulbLight = new THREE.PointLight( 0x00ee88, 1, 500, 2 );
 
 				bulbMat = new THREE.MeshStandardMaterial( {
 					emissive: 0xffffee,
@@ -134,7 +134,7 @@ let camera, scene, renderer, stats;
 				scene.add( hemiLight );
 
 
-        		bulbLight = new THREE.PointLight( 0xff0000, 0.1, 500, 2 );
+        		bulbLight = new THREE.PointLight( 0xff0000, 1, 500, 2 );
 				bulbMat = new THREE.MeshStandardMaterial( {
 					emissive: 0xffffee,
 					emissiveIntensity: 100,
