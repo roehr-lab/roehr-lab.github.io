@@ -706,6 +706,7 @@ slider3.oninput = function(){
 }
 slider2.onclick = function() {
   output.innerHTML = this.value;
+	slider3.max = nelectron.toString();
   slider3.max = maxpath.toString();
   var enee = document.getElementById("nelec");
   console.log(scene.children.length);
