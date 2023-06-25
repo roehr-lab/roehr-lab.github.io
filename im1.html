@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8" />
+
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="theme-color" content="#000000" />
+
+    <meta
+
+      name="description"
+
+      content="Web site created using create-react-app"
+
+    />
+
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+    <!--
+
+      manifest.json provides metadata used when your web app is installed on a
+
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+
+    -->
+
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!--
+
+      Notice the use of %PUBLIC_URL% in the tags above.
+
+      It will be replaced with the URL of the `public` folder during the build.
+
+      Only files inside the `public` folder can be referenced from the HTML.
+
+
+ 
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+
+      work correctly both with client-side routing and a non-root public URL.
+
+      Learn how to configure a non-root public URL by running `npm run build`.
+
+    -->
+
+    <title>React App</title>
+
+  </head>
+
+  <body>
+
+    <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script src="as1.js"></script>
+
+
+ 
+
+    <script type="importmap">
+
+      {
+
+        "imports": {
+
+          "three": "https://unpkg.com/three@^0.149.0/build/three.module.js",
+
+                    "three/addons/": "https://unpkg.com/three@^0.149.0/examples/jsm/"
+
+        }
+
+      }
+
+    </script>
+
+    <style>
+
+      .info{
+
+        position: absolute;
+
+      }
+
+    </style>
+
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <div id="info">
+
+      <h1 >Branching diagram for different spin state of Unpaired electron </h1>
+
+            <p>Slide the slider to get various Spin chain based on S and M</p>
+
+      <div class="slidecontainer">
+
+        Number of electron <input type="text" id ="nelec" name="lname" value="4"><br><br>
+
+        Select the final S<input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange"><br>
+
+        Select the pathway of S for generting M network <input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange3"><br>
+
+        select the pathway of M <input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange4"><br>
+
+        select the pathway of final  M <input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange5"><br>
+
+        
+
+        <button id="myRange2">Generate Diagram</button>
+
+        <button class="w3-btn w3-teal" id="getImage" >Download Image</button>
+
+        <p>Value: <span id="demo">0</span></p>
+
+        <p>Value: <span id="demo2">0</span></p>
+
+
+ 
+
+      </div>
+
+    </div>
+
+    <!--<div class="view">
+
+      <div id="myPlot" style="min-width:400px;width:50%"></div>
+
+          <div id="fire"></div>
+
+      <div id="demo"></div>
+
+    </div>
+
+!-->
+
+    <div id="root"></div>
+
+    <script type="module">
+
+
+ 
+
+        import * as THREE from 'three';
+
+
+ 
+
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+
+
+ 
+
+        import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+
+        import Stats from 'three/addons/libs/stats.module.js';
+
+        import { EXRExporter } from 'three/addons/exporters/EXRExporter.js';
+
+        import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+
+
+ 
+
+        let camera, scene, renderer, stats,textm,textn,texto;
+
+        let cube, sphere, torus, material, bulbLight, bulbMat, hemiLight;
+
+
+ 
+
+        let cubeCamera, cubeRenderTarget;
+
+
+ 
+
+        let controls;
+
+
+ 
+
+        let nelectron = 4;
+
+        let mpath  = 0, maxpath = 0,maxmpath = 0, finalM =0;
+
+        let mmpath = 0, finalS = 0;
+
+        init();
+
+        let renderTarget;
+
+
+ 
+
+        function init() {
+
+
+ 
+
+            renderer = new THREE.WebGLRenderer( { antialias: true ,alpha: true } );
+
+           
+
+            renderer.setPixelRatio( window.devicePixelRatio );
+
+            renderer.setSize( window.innerWidth, window.innerHeight );
+
+            const h = 2000;
+
+            const w = 2000;
+
+            //renderer.setSize(w , h );
+
+            renderer.setAnimationLoop( animation );
+
+            renderer.outputEncoding = THREE.sRGBEncoding;
+
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+            renderer.setClearColor( 0x000000, 0 );
+
+            document.body.appendChild( renderer.domElement );
+
+
+ 
+
+            window.addEventListener( 'resize', onWindowResized );
+
+
+ 
+
+            stats = new Stats();
+
+            document.body.appendChild( stats.dom );
+
+
+ 
+
+            camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
+
+            //camera = new THREE.PerspectiveCamera( 30, 1, 1, 1000 );
+
+            
+
+            camera.position.z = -100;
+
+            camera.position.x = 0;
+
+            //camera.position.y = 110;
+
+            //camera.rotation.x = Math.PI/2
+
+            scene = new THREE.Scene();
+
+            //scene.rotation.y = 0.1; // avoid flying objects occluding the sun
+
+            scene.rotation.x = -Math.PI/2;
+
+            scene.rotation.y = -Math.PI;
+
+            
+
+            scene.position.x = 10;
+
+            scene.position.y = 25;
+
+            //scene.position.z = 40
+
+            //scene.rotation.x = 0.2;
+
+            /*new RGBELoader()
+
+                .setPath( 'textures/equirectangular/' )
+
+                .load( 'quarry_01_1k.hdr', function ( texture ) {
+
+
+ 
+
+                    texture.mapping = THREE.EquirectangularReflectionMapping;
+
+
+ 
+
+                    scene.background = texture;
+
+                    scene.environment = texture;
+
+
+ 
+
+                } );
+
+                */
+
+            //
+
+            //scene.add( new THREE.AmbientLight( 0x8FBCD4, 0.4 ) );
+
+            //scene.background = new THREE.Color( 0xffffff );
+
+            const bulbGeometry = new THREE.SphereGeometry( 0.5, 10, 8 );
+
+        bulbLight = new THREE.PointLight( 0x00ee88, 1, 500, 2 );
+
+
+ 
+
+        bulbMat = new THREE.MeshStandardMaterial( {
+
+          emissive: 0xffffee,
+
+          emissiveIntensity: 100,
+
+          color: 0x000000
+
+        } );
+
+        bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
+
+        bulbLight.position.set( -30, 100, -10 );
+
+        bulbLight.castShadow = true;
+
+        scene.add( bulbLight );  
+
+
+ 
+
+        hemiLight = new THREE.HemisphereLight( 0xddeeff, 0x0f0e0d, 0.09 );
+
+        scene.add( hemiLight );
+
+
+
+ 
+
+            bulbLight = new THREE.PointLight( 0xff0000, 1, 500, 2 );
+
+        bulbMat = new THREE.MeshStandardMaterial( {
+
+          emissive: 0xffffee,
+
+          emissiveIntensity: 100,
+
+          color: 0x000000
+
+        } );
+
+        bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
+
+        bulbLight.position.set( 30, 100, 10 );
+
+        bulbLight.castShadow = true;
+
+        scene.add( bulbLight );
+
+
+
+ 
+
+        bulbLight = new THREE.PointLight( 0xff0000, 1, 500, 2 );
+
+        bulbMat = new THREE.MeshStandardMaterial( {
+
+          emissive: 0xffffee,
+
+          emissiveIntensity: 100,
+
+          color: 0x000000
+
+        } );
+
+        bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
+
+        bulbLight.position.set( 30, 100, 0 );
+
+        bulbLight.castShadow = true;
+
+        scene.add( bulbLight );
+
+
+ 
+
+        bulbLight = new THREE.PointLight( 0xfff0f0, 1, 500, 2 );
+
+        bulbMat = new THREE.MeshStandardMaterial( {
+
+          emissive: 0xffffee,
+
+          emissiveIntensity: 100,
+
+          color: 0x000000
+
+        } );
+
+        bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
+
+        bulbLight.position.set( 30, -100, 0 );
+
+        bulbLight.castShadow = true;
+
+        scene.add( bulbLight );
+
+
+
+ 
+
+        hemiLight = new THREE.HemisphereLight( 0xddeeff, 0x0f0e0d, 0.1 );
+
+        scene.add( hemiLight );
+
+
+ 
+
+            cubeRenderTarget = new THREE.WebGLCubeRenderTarget( 256 );
+
+            cubeRenderTarget.texture.type = THREE.HalfFloatType;
+
+
+ 
+
+            cubeCamera = new THREE.CubeCamera( 1, 1000, cubeRenderTarget );
+
+
+ 
+
+            //
+
+
+ 
+
+            material = new THREE.MeshStandardMaterial( {
+
+                envMap: cubeRenderTarget.texture,
+
+                roughness: 0.05,
+
+                metalness: 1
+
+            } );
+
+
+ 
+
+            const gui = new GUI();
+
+            gui.add( material, 'roughness', 0, 1 );
+
+            gui.add( material, 'metalness', 0, 1 );
+
+            gui.add( renderer, 'toneMappingExposure', 0, 2 ).name( 'exposure' );
+
+
+ 
+
+            //sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 15, 8 ), material );
+
+            //scene.add( sphere );
+
+
+ 
+
+            const material2 = new THREE.MeshStandardMaterial( {
+
+                roughness: 0.1,
+
+                metalness: 0
+
+            } );
+
+
+ 
+
+            
+
+
+ 
+
+            const matLite = new THREE.MeshBasicMaterial( {
+
+            color: 0x005555,
+
+            transparent: true,
+
+            opacity: 0.9,
+
+            side: THREE.DoubleSide
+
+          } );
+
+
+ 
+
+          console.log(scene.children.length);
+
+          
+
+
+ 
+
+          //scene.add(mesh);
+
+
+ 
+
+            //torus = new THREE.Mesh( new THREE.TorusKnotGeometry( 8, 3, 128, 16 ), material2 );
+
+            //scene.add( torus );
+
+
+ 
+
+            
+
+            //torus.position.y = 40;
+
+
+
+ 
+
+            //const geometry = new THREE.PlaneGeometry( 10, 10 );
+
+            //const material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+
+            //const plane = new THREE.Mesh( geometry, material2 );
+
+            //scene.add( plane );
+
+            //plane.rotation.x = -2.0;
+
+            
+
+            //plane.position.x = 40;
+
+            //plane.position.y = 50;
+
+            //
+
+            firl(nelectron,finalS);
+
+            
+
+            
+
+            controls = new OrbitControls( camera, renderer.domElement );
+
+            controls.autoRotate = false;
+
+            
+
+
+ 
+
+          
+
+        }
+
+
+ 
+
+        function firl(nelectron ,finalS){
+
+
+ 
+
+          const loader = new FontLoader();
+
+        loader.load( 'fonts/Noto_Serif_Italic.json', function ( font ) {
+
+          const color = 0x000000;
+
+          const matDark = new THREE.LineBasicMaterial( {
+
+            color: color,
+
+            side: THREE.DoubleSide
+
+          } );
+
+
+ 
+
+          const matLite = new THREE.MeshBasicMaterial( {
+
+            color: color,
+
+            transparent: true,
+
+            opacity: 0.9,
+
+            side: THREE.DoubleSide
+
+          } );
+
+          const messagem = 'o';
+
+          const messagen = 'n';
+
+          const messageo = 'm';
+
+
+ 
+
+          const shapesm = font.generateShapes( messagem, 7 );
+
+          const shapesn = font.generateShapes( messagen, 7 );
+
+          const shapeso = font.generateShapes( messageo, 7 );
+
+
+ 
+
+          const geometrym = new THREE.ShapeGeometry( shapesm );
+
+          const geometryn = new THREE.ShapeGeometry( shapesn );
+
+          const geometryo = new THREE.ShapeGeometry( shapeso );
+
+
+ 
+
+          addSlabel(font, 5*nelectron + 2);          
+
+          
+
+          textR("Addition of electron",matLite, font,1.25*nelectron , -15,5,1, -Math.PI/2,0,0 );
+
+          //textR("Addition of electron",matLite, font,1.25*nelectron , -15,5,1, 0,0,0 );
+
+          
+
+          //textR("Wave functions with common final S",matLite, font,5*nelectron + 2 ,  -12,30,1, -Math.PI/2,0,Math.PI/2);
+
+          //textR("2",matLite, font,42 ,  -11.3,6,0.5, 0,Math.PI/2,0);
+
+        });
+
+
+
+ 
+
+          const name = "sphere.json"
+
+          fetch(name).then(response =>{
+
+            if(!response.ok){
+
+              throw new Error(response.statusText);
+
+            }
+
+            return response.json();
+
+          }).then(data =>{
+
+            //console.log(data);
+
+            const material2 = new THREE.MeshStandardMaterial( {
+
+                roughness: 0.1,
+
+                metalness: 0
+
+            } );
+
+
+ 
+
+            const material3 = new THREE.MeshStandardMaterial( {
+
+                roughness: 0.1,
+
+                color:  0x00ff00 ,
+
+                metalness: 0
+
+            } );
+
+
+ 
+
+            const pt = GenerateSTree(nelectron)
+
+            console.log(pt)
+
+            const indx =  GenerateConnection(pt)
+
+            //console.log(pt)
+
+            const st = []
+
+            const ConPoints = []
+
+            const ConCol = []
+
+            for(let i = 0; i < pt[0].length;i++){
+
+              for(let j = 0; j < pt[0][i].length; j++){
+
+                sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 1, 8 ), material2 );
+
+                sphere.position.x = i*5;
+
+                sphere.position.y = pt[0][i][j]*5 - 10;
+
+                sphere.position.z = 0;
+
+                ConPoints.push(i*5);
+
+                ConPoints.push(pt[0][i][j]*5 - 10);
+
+                ConPoints.push(0);
+
+                ConCol.push(0);
+
+                ConCol.push(0);
+
+                ConCol.push(0);
+
+                scene.add( sphere );
+
+              }
+
+              st.push(-1)
+
+            }
+
+
+ 
+
+            const mad = []
+
+            pt[1][pt[1].length -1 ][finalS].tracePrev(st,mad)
+
+
+ 
+
+            //console.log(mad)
+
+
+ 
+
+            const LinePoint = [];
+
+            const LineCol = [];
+
+            const indx2 = [];
+
+            for(let i =0 ; i < mad.length; i++){
+
+              for(let j = 0; j < mad[i].length; j++){
+
+                LinePoint.push(j*5);
+
+                LinePoint.push(mad[i][j]*5 -10);
+
+                LinePoint.push(-i -10);
+
+                if(i == mpath){
+
+                  LineCol.push(0.2);
+
+                  LineCol.push(1);
+
+                  LineCol.push(1);
+
+                
+
+                }else{
+
+                LineCol.push(0);
+
+                LineCol.push(0);
+
+                LineCol.push(0);
+
+                }
+
+                
+
+                
+
+                if(j > 0){
+
+                  indx2.push((i*mad[i].length) + j-1);
+
+                  indx2.push((i*mad[i].length) + j);
+
+                }
+
+                
+
+              }
+
+            }
+
+            maxpath = mad.length;
+
+            const mlPoint = make_m(mad[mpath]);
+
+            const mulPoint = mlPoint[0];
+
+            const mul3d = []
+
+            const mul3dxyz = []
+
+            const mul3dCol = []
+
+            const mRefxyz = []
+
+            const mRefCol = []
+
+            const mRefInx = []
+
+            let mrefi = 0
+
+            makeMconnection(mlPoint[1])
+
+            const mad2 = []
+            //console.log("irje");
+            //console.log(mlPoint[1]);
+            mlPoint[1][mlPoint[1].length -1][finalM].tracePrev(st,mad2);
+
+            //console.log(mad2)
+
+            for(let i = 0; i < mulPoint.length; i++){
+
+              for(let j = 0; j < mulPoint[i].length; j++){
+
+                sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 1, 8 ), material2 );
+
+                sphere.position.x = i*5;
+
+                sphere.position.y = mad[mpath][i]*5 -10;
+
+                sphere.position.z = mulPoint[i][j]*5 + 20;
+
+                mul3d.push(i*5);
+
+                mul3d.push(mad[mpath][i]*5 -10);
+
+                mul3d.push(mulPoint[i][j]*5 + 20);
+
+                mul3dxyz.push([i,mad[mpath][i],mulPoint[i][j]])
+
+                mul3dCol.push(0);
+
+                mul3dCol.push(0);
+
+                mul3dCol.push(0);
+
+
+ 
+
+                mRefxyz.push(i*5);
+
+                mRefxyz.push(mad[mpath][i]*5 -10);
+
+                mRefxyz.push(mulPoint[i][j]*5 + 20);
+
+                mRefxyz.push(i*5);
+
+                mRefxyz.push(-10);
+
+                mRefxyz.push(mulPoint[i][j]*5 + 20);
+
+                mRefCol.push(0.2);
+
+                mRefCol.push(0.8);
+
+                mRefCol.push(0.8);
+
+                mRefCol.push(0.2);
+
+                mRefCol.push(0.8);
+
+                mRefCol.push(0.8);
+
+                mRefInx.push(mrefi);
+
+                mrefi++;
+
+                mRefInx.push(mrefi);
+
+                mrefi++;
+
+                
+
+                scene.add( sphere );
+
+              }
+
+            }
+
+            const pathI = []
+
+            make_Connection(pathI,mul3dxyz)
+
+          //\console.log(pathI)
+
+            maxmpath = mad2.length;
+
+            //for(let i = 0; i < data["sphere"].length; i++){
+
+             // sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 1, 8 ), material2 );
+
+//              sphere.position.x = data["sphere"][i][0];
+
+  //            sphere.position.y = data["sphere"][i][1];
+
+    //          sphere.position.z = data["sphere"][i][2];
+
+      //        scene.add( sphere );
+
+        //    }
+
+
+ 
+
+            //for(let i = 0; i < data["m_points"].length; i++){
+
+            //  sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 1, 8 ), material2 );
+
+            //  sphere.position.x = data["m_points"][i][0]*5;
+
+            //  sphere.position.y = data["m_points"][i][1]*5 -10;
+
+            //  sphere.position.z = data["m_points"][i][2]*5 + 20;
+
+            //  scene.add( sphere );
+
+            //}
+
+
+ 
+
+            for(let i = 0; i < mad[mpath].length; i++){
+
+              sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 1, 8 ), material3 );
+
+              sphere.position.x = i*5;
+
+              sphere.position.y = mad[mpath][i]*5 -10;
+
+              sphere.position.z = 0;
+
+              scene.add( sphere );
+
+            }
+
+
+
+            //console.log("mad2");
+            //console.log(mad2);
+            for(let i = 0; i < mad2[mmpath].length; i++){
+
+              sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 1, 8 ), material3 );
+
+              sphere.position.x = i*5;
+
+              sphere.position.y = mad[mpath][i]*5 -10;
+
+              sphere.position.z = mad2[mmpath][i]*2.5 +20;
+
+              scene.add( sphere );
+
+            }
+
+            /*
+
+            for(let i = 0; i < 14;i++){
+
+              const geometry = new THREE.BufferGeometry();
+
+              console.log(data["connindx"])
+
+              console.log(data["connCol"])
+
+              geometry.setIndex( data["connindx"][i] );
+
+              geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(data["connXYZ"][i]), 3 ) );
+
+              geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( new Float32Array(data["connCol"][i]), 3 ) );
+
+              const materiall = new THREE.LineBasicMaterial( {
+
+              color: 0xffffff,
+
+              linewidth: 3,
+
+              vertexColors: true,
+
+              alphaToCoverage: true,
+
+            } );
+
+            const mesh = new THREE.LineSegments( geometry, materiall );
+
+            scene.add(mesh);
+
+          }*/
+
+          const geometry = new THREE.BufferGeometry();
+
+            //console.log(data["connindx"])
+
+            //console.log(data["connCol"])
+
+            geometry.setIndex( indx );
+
+            geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(ConPoints), 3 ) );
+
+            geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( new Float32Array(ConCol), 3 ) );
+
+            const materiall = new THREE.LineBasicMaterial( {
+
+              color: 0xffffff,
+
+              linewidth: 5,
+
+              vertexColors: true,
+
+              alphaToCoverage: true,
+
+            } );
+
+            const mesh = new THREE.LineSegments( geometry, materiall );
+
+            scene.add(mesh);
+
+            
+
+            const geometry1 = new THREE.BufferGeometry();
+
+            //console.log(data["connindx"])
+
+            //console.log(data["connCol"])
+
+            const sline = [
+
+               0,-10,0,
+
+               5*(nelectron),-10,0,
+
+               5*(nelectron),-10,0,
+
+               5*(nelectron),5*(nelectron) -10,1,
+
+               1.25*(nelectron)   ,-12,3,
+
+               4.75*(nelectron)   ,-12,3,
+
+               4.75*(nelectron)   ,-12   ,3,
+
+               4.75*(nelectron) -1,-12 -1,3,
+
+               4.75*(nelectron)   ,-12   ,3,
+
+               4.75*(nelectron) -1,-12 +1,3,
+
+               
+
+               4.75*(nelectron)   ,-12,3,
+
+               4.75*(nelectron) -1,-12,3-1,
+
+               4.75*(nelectron)   ,-12,3,
+
+               4.75*(nelectron) -1,-12,3+1,
+
+               0,0,0,
+
+               1,1,1,
+
+               0,0,0,
+
+               1,1,1,
+
+               0,0,0,
+
+               1,1,1,
+
+               0,0,0,
+
+               1,1,1,
+
+               0,0,0,
+
+               1,1,1,
+
+               0,0,0,
+
+               1,1,1,
+
+            ];
+
+            const scolr = [
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.0, 0.0, 0.0,
+
+            0.0, 0.0, 0.0,
+
+            0.0, 0.0, 0.0,
+
+            0.0, 0.0, 0.0,
+
+            0.0, 0.0, 0.0,
+
+            0.0, 0.0, 0.0,
+
+            0.0, 0.0, 0.0,
+
+            0.0, 0.0, 0.0,
+
+            0.0, 0.0, 0.0,
+
+            0.0, 0.0, 0.0,
+
+            0.0, 0.0, 0.0,
+
+            0.0, 0.0, 0.0,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,  
+
+          ];
+
+            const sindx =[
+
+              //0,1,
+
+              //2,3,
+
+              4,5,
+
+              //6,7,
+
+              //8,9,
+
+              10,11,
+
+              12,13
+
+            ];
+
+
+ 
+
+            geometry1.setIndex( sindx);
+
+            geometry1.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(sline), 3 ) );
+
+            geometry1.setAttribute( 'color', new THREE.Float32BufferAttribute( new Float32Array(scolr), 3 ) );
+
+            const mesh1 = new THREE.LineSegments( geometry1, materiall );
+
+            scene.add(mesh1);
+
+            
+
+
+ 
+
+            const geometry2 = new THREE.BufferGeometry();
+
+            //console.log(data["connindx"])
+
+            //console.log(data["connCol"])
+
+            geometry2.setIndex( pathI );
+
+            geometry2.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(mul3d), 3 ) );
+
+            geometry2.setAttribute( 'color', new THREE.Float32BufferAttribute( new Float32Array(mul3dCol), 3 ) );
+
+            const mesh2 = new THREE.LineSegments( geometry2, materiall );
+
+            scene.add(mesh2);
+
+            
+
+
+ 
+
+            const geometry4 = new THREE.BufferGeometry();
+
+            //console.log(data["connindx"])
+
+            //console.log(data["connCol"])
+
+            geometry4.setIndex( indx2 );
+
+            geometry4.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(LinePoint), 3 ) );
+
+            geometry4.setAttribute( 'color', new THREE.Float32BufferAttribute( new Float32Array(LineCol), 3 ) );
+
+            const mesh4 = new THREE.LineSegments( geometry4, materiall );
+
+            scene.add(mesh4); //line of s pathways
+
+            const geometry5 = new THREE.BufferGeometry();
+
+            //console.log(data["connindx"])
+
+            //console.log(data["connCol"])
+
+            const materiall2 = new THREE.LineBasicMaterial( {
+
+              color: 0xffffff,
+
+              linewidth: 2,
+
+              vertexColors: true,
+
+              alphaToCoverage: true,
+
+            } );
+
+            console.log(mRefInx)
+
+            geometry5.setIndex( mRefInx );
+
+            geometry5.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(mRefxyz), 3 ) );
+
+            geometry5.setAttribute( 'color', new THREE.Float32BufferAttribute( new Float32Array(mRefCol), 3 ) );
+
+            const mesh5 = new THREE.LineSegments( geometry5, materiall2 );
+
+            scene.add(mesh5);
+
+            
+
+            
+
+
+ 
+
+            const mref = [
+
+               0.0, -10.0, 20.0,
+
+              5*nelectron, -10.0, 20.0,
+
+               0.0, -10.0, 20.0 + 2.5 ,//-0.1,
+
+              5*nelectron, -10.0, 20.0 + 2.5 ,//-0.1,
+
+               0.0, -10.0, 20.0 + 5   ,//-0.8,
+
+              5*nelectron, -10.0, 20.0 + 5   ,//-0.8,
+
+               0.0, -10.0, 20.0 + 7.5 ,//-1.3,
+
+              5*nelectron, -10.0, 20.0 + 7.5 ,//-1.3,
+
+               0.0, -10.0, 20.0 - 2.5 ,// -0.5,
+
+              5*nelectron, -10.0, 20.0 - 2.5 ,// -0.5,
+
+               0.0, -10.0, 20.0 - 5   ,// -1.8,
+
+              5*nelectron, -10.0, 20.0 - 5   ,// -1.8,
+
+               0.0, -10.0, 20.0 - 7.5 ,// -3.8,
+
+              5*nelectron, -10.0, 20.0 - 7.5 ,// -3.8,
+
+            
+
+            ];
+
+            const mref_colr = [
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,
+
+            0.6, 0.6, 0.6,  
+
+          ];
+
+            const mref_indx =[
+
+              0,1,
+
+              2,3,
+
+              4,5,
+
+              //6,7,
+
+              8,9,
+
+              10,11,
+
+              //12,13
+
+            ];
+
+            const geometry3 = new THREE.BufferGeometry();
+
+            geometry3.setIndex( mref_indx );
+
+            geometry3.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(mref), 3 ) );
+
+            geometry3.setAttribute( 'color', new THREE.Float32BufferAttribute( new Float32Array(mref_colr), 3 ) );
+
+            const mesh3 = new THREE.LineSegments( geometry3, materiall );
+
+            scene.add(mesh3);
+          
+            
+            
+
+            controls.update();
+
+            renderer.render( scene, camera );
+
+            stats.update();
+
+          });
+
+        }
+
+        function text( messagem , matLite, font, px=0, py=0, pz=0, size = 4){
+
+        const shapesm = font.generateShapes( messagem, size );
+
+        const geometrym = new THREE.ShapeGeometry( shapesm );
+
+        
+
+        let text = new THREE.Mesh( geometrym, matLite );
+
+        text.position.y = py;
+
+        text.position.x = px;
+
+        text.position.z = pz;
+
+        text.lookAt(camera.position);
+
+        scene.add( text );
+
+        return text;
+
+      }
+
+      function textR( messagem , matLite, font, px=0, py=0, pz=0, size = 4, rx=0,ry=0,rz =0){
+
+        const shapesm = font.generateShapes( messagem, size );
+
+        const geometrym = new THREE.ShapeGeometry( shapesm );
+
+        
+
+        let text = new THREE.Mesh( geometrym, matLite );
+
+        text.position.y = py;
+
+        text.position.x = px;
+
+        text.position.z = pz;
+
+        text.lookAt(camera.position);
+
+        text.rotation.x = rx;
+
+        text.rotation.y = ry;
+
+        text.rotation.z = rz;
+
+        
+
+        scene.add( text );
+
+        return text;
+
+      }
+
+
+ 
+
+      function addSlabel(font, x){
+
+        const color = 0x000000;
+
+        const matLite = new THREE.MeshBasicMaterial( {
+
+            color: color,
+
+            transparent: true,
+
+            opacity: 0.9,
+
+            side: THREE.DoubleSide
+
+          } );
+
+          
+
+          //textR("S",   matLite, font,   -8, + 5,  0,  4,   0,0,0);
+
+          //textR("0",   matLite, font,  x , -10,   0, 1,   0,0,0);
+
+          //textR("1/2", matLite, font,  x ,  -5,   0, 1,   0,0,0);
+
+          //textR("1",   matLite, font,  x ,   0,   0, 1,   0,0,0);
+
+          //textR("3/3", matLite, font,  x ,   5,   0, 1,   0,0,0);
+
+          //textR("2",   matLite, font,  x ,  10,   0, 1,   0,0,0);
+
+          //textR("5/2", matLite, font,  x ,  15,   0, 1,   0,0,0);
+
+          //textR("3",   matLite, font,  x ,  20,   0, 1,   0,0,0);
+
+          //textR("7/2", matLite, font,  x ,  25,   0, 1,   0,0,0);
+
+          //textR("4",   matLite, font,  x ,  30,   0, 1,   0,0,0);
+
+          //for(let i =0 ; i < nelectron + 1; i++){
+
+          //  textR("S : "+(i/2).toString(),   matLite, font,  x , i*5 -10,   0, 1,   0,0,0);
+
+          //}
+          //textR("m :+3/2",   matLite, font,  -5,  -10,   5, 1,   -Math.PI/2,0,0);
+          textR("m :  +1",   matLite, font,  -5,  -10,   10, 1,   -Math.PI/2,0,0);
+          textR("m :+1/2",   matLite, font,  -5,  -10,   15, 1,   -Math.PI/2,0,0);
+          textR("m :   0",   matLite, font,  -5,  -10,   20, 1,   -Math.PI/2,0,0);
+          textR("m :-1/2",   matLite, font,  -5,  -10,   25, 1,   -Math.PI/2,0,0);
+          textR("m :  -1",   matLite, font,  -5,  -10,   30, 1,   -Math.PI/2,0,0);
+          //textR("m :-3/2",   matLite, font,  -5,  -10,   35, 1,   -Math.PI/2,0,0);
+
+          
+
+          
+
+      }
+
+
+ 
+
+      var getImage = document.getElementById("getImage")
+
+      var slider = document.getElementById("myRange");
+
+      var slider2 = document.getElementById("myRange2");
+
+      var slider3 = document.getElementById("myRange3");
+
+      var slider4 = document.getElementById("myRange4");
+
+      var slider5 = document.getElementById("myRange5");
+
+      
+
+      var output = document.getElementById("demo");
+
+      var output2 = document.getElementById("demo2");
+
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+
+  output2.innerHTML = this.value;
+
+  console.log("fiel");
+
+  console.log(slider3.max);
+
+  console.log(scene.children.length);
+
+  for(let i = 0; i < 500; i++){
+
+    if(scene.children.length > 10){
+
+      scene.remove(scene.children[scene.children.length -1 ]);
+
+    }
+
+  }
+  finalS = this.value;
+  firl(nelectron,this.value);
+
+  //slider3.max = maxpath.toString();
+  //setTimeout(bail,200);
+  sail();
+  //slider4.max = maxmpath.toString();
+
+  
+
+  
+
+}
+
+
+ 
+
+slider3.oninput = function(){
+
+  output.innerHTML = this.value;
+
+  mpath = parseInt(this.value);
+
+  
+
+  console.log(scene.children.length);
+
+  for(let i = 0; i < 500; i++){
+
+    if(scene.children.length > 10){
+
+      scene.remove(scene.children[scene.children.length -1 ]);
+
+    }
+
+  }
+
+  firl(nelectron,slider.value);
+  //setTimeout(bail,200);
+  sail();
+
+  //slider4.max = maxmpath.toString();
+
+}
+
+
+
+ 
+
+slider4.oninput = function(){
+
+  output.innerHTML = this.value;
+
+  mmpath = parseInt(this.value);
+
+  console.log(slider4.max);
+
+  console.log(scene.children.length);
+
+  for(let i = 0; i < 500; i++){
+
+    if(scene.children.length > 10){
+
+      scene.remove(scene.children[scene.children.length -1 ]);
+
+    }
+
+  }
+
+  firl(nelectron,slider.value);
+  //setTimeout(bail,200);
+  sail();
+}
+
+
+ 
+
+slider5.oninput = function(){
+
+  output.innerHTML = this.value;
+
+  finalM = parseInt(this.value);
+
+  console.log(slider5.max);
+
+  console.log(scene.children.length);
+
+  for(let i = 0; i < 500; i++){
+
+    if(scene.children.length > 10){
+
+      scene.remove(scene.children[scene.children.length -1 ]);
+
+    }
+
+  }
+
+  firl(nelectron,slider.value);
+  //setTimeout(bail,200);
+  sail();
+
+}
+
+slider2.onclick = function() {
+
+  output.innerHTML = this.value;
+
+  var enee = document.getElementById("nelec");
+
+  console.log(scene.children.length);
+
+  for(let i = 0; i < 500; i++){
+
+    if(scene.children.length > 10){
+
+      scene.remove(scene.children[scene.children.length -1 ]);
+
+    }
+
+  }
+
+  console.log("Fieleh");
+
+  console.log(enee.value);
+
+  nelectron = parseInt(enee.value);
+
+  firl(parseInt(enee.value) , 0);
+
+  //slider.max = nelectron.toString();
+
+  //slider3.max = maxpath.toString();
+
+  //slider4.max = maxmpath.toString();
+
+}
+
+function bail (){
+
+  renderer.render(scene, camera);
+
+        var dataURL = renderer.domElement.toDataURL();
+
+        var img = new Image();
+
+        img.src = dataURL;
+
+        //let sp = document.getElementById("demo");
+
+        //sp.appendChild(img);
+
+    const a = document.createElement('a')
+
+      a.href = dataURL;
+
+      a.download = "PointM"+nelectron.toString()+"_"+finalS.toString()+"_"+mpath.toString()+"_"+finalM.toString()+"_"+mmpath.toString()+".png";
+
+      document.body.appendChild(a)
+
+      a.click()
+
+      document.body.removeChild(a)
+
+      
+
+  }
+
+
+ 
+
+      getImage.onclick = function (){
+
+    renderer.render(scene, camera);
+
+        var dataURL = renderer.domElement.toDataURL();
+
+        var img = new Image();
+
+        img.src = dataURL;
+
+        //let sp = document.getElementById("demo");
+
+        //sp.appendChild(img);
+
+    const a = document.createElement('a')
+
+      a.href = dataURL;
+
+      a.download = "Point.png";
+
+      document.body.appendChild(a)
+
+      a.click()
+
+      document.body.removeChild(a)  
+
+  }
+
+  function sail(){
+
+    setTimeout(bail,1000);
+
+  }
+
+  function clean(){
+
+    for(let i = 0; i < 500; i++){
+
+    if(scene.children.length > 10){
+
+      scene.remove(scene.children[scene.children.length -1 ]);
+
+    }
+
+  }
+
+  }
+
+
+ 
+
+  document.body.onkeyup = function(e){
+
+    let keyPressed = e.which;
+
+  console.log(keyPressed);
+
+    if(keyPressed == 68){  //uparrow
+
+      console.log(maxmpath)
+      console.log(maxpath)
+      for(let i = 0; i < nelectron/2+1; i++){
+        for(let p = 0 ; p < maxmpath ; p++){
+          for(let j = -i; j < i + 1; j++){
+            for (let q = 0; q < maxmpath; q++){
+              console.log(i,j/2,p);
+                finalS = i;
+                mpath = p;
+                finalM = j;
+                mmpath = q;
+                await setTimeout(bail,10000);
+                //firl(nelectron , finalS);
+                //sail();
+
+            }
+          }
+        }
+      }
+
+    }
+
+    if(keyPressed == 38){
+
+      slider.value += 1;
+
+      if(slider.value > 2){
+
+        slider.value = 2
+
+      }
+
+      console.log(slider.value);
+
+      clean();
+
+      firl(nelectron,slider.value);
+      bail();
+
+    }
+
+    if(keyPressed == 40){
+
+      slider.value -= 1;
+
+      console.log(slider.value);
+
+      clean();
+
+      firl(nelectron,slider.value);
+
+    }
+
+  }
+
+  function waitingKeypress() {
+  return new Promise((resolve) => {
+    document.addEventListener('keydown', onKeyHandler);
+    function onKeyHandler(e) {
+      if (e.keyCode === 38) {
+        document.removeEventListener('keydown', onKeyHandler);
+        resolve();
+      }
+    }
+  });
+}
+
+
+
+
+ 
+
+        function onWindowResized() {
+
+
+ 
+
+            renderer.setSize( window.innerWidth, window.innerHeight );
+
+
+ 
+
+            //camera.aspect = window.innerWidth / window.innerHeight;
+
+            //camera.updateProjectionMatrix();
+
+            const exporter = new EXRExporter();
+
+            
+
+            renderer.setRenderTarget;
+
+            //renderTarget.texture.type = THREE.HalfFloatType;
+
+            //const option = {type: THREE.HalfFloatType, compression}
+
+            renderer.render(scene, camera);
+
+            //var dataURL = renderer.domElement.toDataURL();
+
+            //var img = new Image();
+
+            //img.src = dataURL;
+
+            //let sp = document.getElementById("root");
+
+            //sp.appendChild(img);
+
+
+ 
+
+        }
+
+
+ 
+
+        function animation( msTime ) {
+
+            cubeCamera.rotation.x += 0.1;
+
+
+ 
+
+            //cubeCamera.update( renderer, scene );
+
+
+ 
+
+            controls.update();
+
+
+ 
+
+            renderer.render( scene, camera );
+
+
+ 
+
+            stats.update();
+
+
+ 
+
+        }
+
+
+ 
+
+    </script>
+
+
+ 
+
+</body>
+
+</html>
+
+
+ 
