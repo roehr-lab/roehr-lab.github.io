@@ -59,7 +59,7 @@
 
     <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
 
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+   
 
     <script src="as1.js"></script>
 
@@ -98,8 +98,8 @@
 
       <h1 >Branching diagram for different spin state of Unpaired electron </h1>
 
-            <p>Slide the slider to get various Spin chain based on S and M</p>
-
+      <p>Slide the slider to get various Spin chain based on S and M</p>
+      <p>Press "D" to run animation </p>
       <div class="slidecontainer">
 
         Number of electron <input type="text" id ="nelec" name="lname" value="4"><br><br>
@@ -197,7 +197,7 @@
         init();
 
         let renderTarget;
-
+        let download = 0;
 
  
 
@@ -253,7 +253,7 @@
 
             camera.position.z = -100;
 
-            camera.position.x = 0;
+            camera.position.y = -25;
 
             //camera.position.y = 110;
 
@@ -271,7 +271,7 @@
 
             scene.position.x = 10;
 
-            scene.position.y = 25;
+            scene.position.y = 0;
 
             //scene.position.z = 40
 
@@ -573,79 +573,7 @@
 
  
 
-          const loader = new FontLoader();
-
-        loader.load( 'fonts/Noto_Serif_Italic.json', function ( font ) {
-
-          const color = 0x000000;
-
-          const matDark = new THREE.LineBasicMaterial( {
-
-            color: color,
-
-            side: THREE.DoubleSide
-
-          } );
-
-
- 
-
-          const matLite = new THREE.MeshBasicMaterial( {
-
-            color: color,
-
-            transparent: true,
-
-            opacity: 0.9,
-
-            side: THREE.DoubleSide
-
-          } );
-
-          const messagem = 'o';
-
-          const messagen = 'n';
-
-          const messageo = 'm';
-
-
- 
-
-          const shapesm = font.generateShapes( messagem, 7 );
-
-          const shapesn = font.generateShapes( messagen, 7 );
-
-          const shapeso = font.generateShapes( messageo, 7 );
-
-
- 
-
-          const geometrym = new THREE.ShapeGeometry( shapesm );
-
-          const geometryn = new THREE.ShapeGeometry( shapesn );
-
-          const geometryo = new THREE.ShapeGeometry( shapeso );
-
-
- 
-
-          addSlabel(font, 5*nelectron + 2);          
-
           
-
-          textR("Addition of electron",matLite, font,1.25*nelectron , -15,5,1, -Math.PI/2,0,0 );
-
-          //textR("Addition of electron",matLite, font,1.25*nelectron , -15,5,1, 0,0,0 );
-
-          
-
-          //textR("Wave functions with common final S",matLite, font,5*nelectron + 2 ,  -12,30,1, -Math.PI/2,0,Math.PI/2);
-
-          //textR("2",matLite, font,42 ,  -11.3,6,0.5, 0,Math.PI/2,0);
-
-        });
-
-
 
  
 
@@ -713,13 +641,13 @@
 
                 sphere.position.y = pt[0][i][j]*5 - 10;
 
-                sphere.position.z = 0;
+                sphere.position.z = -5;
 
                 ConPoints.push(i*5);
 
                 ConPoints.push(pt[0][i][j]*5 - 10);
 
-                ConPoints.push(0);
+                ConPoints.push(-5);
 
                 ConCol.push(0);
 
@@ -952,7 +880,7 @@
 
               sphere.position.y = mad[mpath][i]*5 -10;
 
-              sphere.position.z = 0;
+              sphere.position.z = -5;
 
               scene.add( sphere );
 
@@ -975,6 +903,8 @@
               scene.add( sphere );
 
             }
+
+            
 
             /*
 
@@ -1056,27 +986,27 @@
 
                5*(nelectron),5*(nelectron) -10,1,
 
-               1.25*(nelectron)   ,-12,3,
+               1.25*(nelectron)   ,-12,0,
 
-               4.75*(nelectron)   ,-12,3,
+               4.75*(nelectron)   ,-12,0,
 
-               4.75*(nelectron)   ,-12   ,3,
+               4.75*(nelectron)   ,-12   ,0,
 
-               4.75*(nelectron) -1,-12 -1,3,
+               4.75*(nelectron) -1,-12 -1,0,
 
-               4.75*(nelectron)   ,-12   ,3,
+               4.75*(nelectron)   ,-12   ,0,
 
-               4.75*(nelectron) -1,-12 +1,3,
+               4.75*(nelectron) -1,-12 +1,0,
 
                
 
-               4.75*(nelectron)   ,-12,3,
+               4.75*(nelectron)   ,-12,0,
 
-               4.75*(nelectron) -1,-12,3-1,
+               4.75*(nelectron) -1,-12,0-1,
 
-               4.75*(nelectron)   ,-12,3,
+               4.75*(nelectron)   ,-12,0,
 
-               4.75*(nelectron) -1,-12,3+1,
+               4.75*(nelectron) -1,-12,0+1,
 
                0,0,0,
 
@@ -1358,6 +1288,107 @@
 
             scene.add(mesh3);
           
+            const loader = new FontLoader();
+
+        loader.load( 'fonts/Noto_Sans_Math_Regular.json', function ( font ) {
+
+          const color = 0x000000;
+
+          const matDark = new THREE.LineBasicMaterial( {
+
+            color: color,
+
+            side: THREE.DoubleSide
+
+          } );
+
+
+ 
+
+          const matLite = new THREE.MeshBasicMaterial( {
+
+            color: color,
+
+            transparent: true,
+
+            opacity: 0.9,
+
+            side: THREE.DoubleSide
+
+          } );
+
+          const messagem = 'o';
+
+          const messagen = 'n';
+
+          const messageo = 'm';
+
+
+ 
+
+          const shapesm = font.generateShapes( messagem, 7 );
+
+          const shapesn = font.generateShapes( messagen, 7 );
+
+          const shapeso = font.generateShapes( messageo, 7 );
+
+
+ 
+
+          const geometrym = new THREE.ShapeGeometry( shapesm );
+
+          const geometryn = new THREE.ShapeGeometry( shapesn );
+
+          const geometryo = new THREE.ShapeGeometry( shapeso );
+
+
+ 
+
+          addSlabel(font, 5*nelectron + 2);          
+
+          
+
+          textR("Addition of electron",matLite, font,1.25*nelectron , -15,1,1, -Math.PI/2,0,0 );
+
+          //textR("Addition of electron",matLite, font,1.25*nelectron , -15,5,1, 0,0,0 );
+
+          textR("|",   material3, font,  -6,  -10,   35, 2,   -Math.PI/2,0,0);
+          for(let i = 0; i < mad2[mmpath].length; i++){
+
+//sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 1, 8 ), material3 );
+
+//sphere.position.x = i*5;
+
+//sphere.position.y = mad[mpath][i]*5 -10;
+
+//sphere.position.z = mad2[mmpath][i]*2.5 +20;
+
+//scene.add( sphere );
+
+        if(i > 0){
+            console.log(mad2[mmpath][i] -mad2[mmpath][i-1] )
+            if(mad2[mmpath][i] -mad2[mmpath][i-1] == 1){
+              textR("\u2191",   matLite, font,  -5 + 2*i,  -10,   35, 2,   -Math.PI/2,0,0);
+            }
+            else{
+              textR("\u2193",   matLite, font,  -5 + 2*i,  -10,   35, 2,   -Math.PI/2,0,0);
+            }
+        }
+}
+
+          
+         
+          textR("\u27e9",   material3, font,  -5 + 2*(nelectron + 1),  -10,   35, 2,   -Math.PI/2,0,0);
+
+
+
+          //textR("Wave functions with common final S",matLite, font,5*nelectron + 2 ,  -12,30,1, -Math.PI/2,0,Math.PI/2);
+
+          //textR("2",matLite, font,42 ,  -11.3,6,0.5, 0,Math.PI/2,0);
+
+        });
+
+
             
             
 
@@ -1474,15 +1505,13 @@
 
           //}
           //textR("m :+3/2",   matLite, font,  -5,  -10,   5, 1,   -Math.PI/2,0,0);
-          textR("m :  +1",   matLite, font,  -5,  -10,   10, 1,   -Math.PI/2,0,0);
-          textR("m :+1/2",   matLite, font,  -5,  -10,   15, 1,   -Math.PI/2,0,0);
-          textR("m :   0",   matLite, font,  -5,  -10,   20, 1,   -Math.PI/2,0,0);
-          textR("m :-1/2",   matLite, font,  -5,  -10,   25, 1,   -Math.PI/2,0,0);
-          textR("m :  -1",   matLite, font,  -5,  -10,   30, 1,   -Math.PI/2,0,0);
-          //textR("m :-3/2",   matLite, font,  -5,  -10,   35, 1,   -Math.PI/2,0,0);
-
+          textR("m :  +1",   matLite, font,  -5,  -10,   15  , 1,   -Math.PI/2,0,0);
+          textR("m :+1/2",   matLite, font,  -5,  -10,   17.5, 1,   -Math.PI/2,0,0);
+          textR("m :   0",   matLite, font,  -5,  -10,   20  , 1,   -Math.PI/2,0,0);
+          textR("m :-1/2",   matLite, font,  -5,  -10,   22.5, 1,   -Math.PI/2,0,0);
+          textR("m :  -1",   matLite, font,  -5,  -10,   25  , 1,   -Math.PI/2,0,0);
           
-
+          
           
 
       }
@@ -1746,10 +1775,40 @@ function bail (){
   }
 
   }
-
-
  
+  function makeImage(i,p,j,q){
+    return new Promise((resolve) => {
+      setTimeout(()=> {
+        if( download == 1){
+          bail();
+        }
+        resolve(i);
+      },200);
+    });
+  }
+async function f1(){
+  for(let i = 0; i < nelectron/2+1; i++){
+        for(let p = 0 ; p < maxpath ; p++){
+          for(let j = 0; j < 2*i + 1; j++){
+            for (let q = 0; q < maxmpath; q++){
+              console.log("rioejro")
+              console.log(i,p,j,q);
+              finalS = i;
+              mpath = p;
+              finalM = j;
+              mmpath = q;
+              clean();
+                firl(nelectron , i);
+                const a = await makeImage(i,p,j,q);
+                //await setTimeout(bail,10000);
+                //firl(nelectron , finalS);
+                //sail();
 
+            }
+          }
+        }
+   }
+}
   document.body.onkeyup = function(e){
 
     let keyPressed = e.which;
@@ -1757,28 +1816,12 @@ function bail (){
   console.log(keyPressed);
 
     if(keyPressed == 68){  //uparrow
-
       console.log(maxmpath)
       console.log(maxpath)
-      for(let i = 0; i < nelectron/2+1; i++){
-        for(let p = 0 ; p < maxmpath ; p++){
-          for(let j = -i; j < i + 1; j++){
-            for (let q = 0; q < maxmpath; q++){
-              console.log(i,j/2,p);
-                finalS = i;
-                mpath = p;
-                finalM = j;
-                mmpath = q;
-                await setTimeout(bail,10000);
-                //firl(nelectron , finalS);
-                //sail();
-
-            }
-          }
-        }
+      f1()
       }
 
-    }
+
 
     if(keyPressed == 38){
 
@@ -1792,11 +1835,7 @@ function bail (){
 
       console.log(slider.value);
 
-      clean();
-
-      firl(nelectron,slider.value);
-      bail();
-
+      download = 1
     }
 
     if(keyPressed == 40){
