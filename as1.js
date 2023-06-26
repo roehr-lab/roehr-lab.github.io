@@ -26,10 +26,8 @@ class TreePoint{
     tracePrev(plc,ad) {
         if(this.conn.length == 0){
             plc[this.i] = this.j;
-            if(!(-1 in plc)){
-                let pl= [...plc]
-                ad.push(pl)
-            }
+            let pl= [...plc]
+            ad.push(pl)
         }
         for(let i = 0; i < this.conn.length; i++){
             plc[this.i] = this.j ;
@@ -102,32 +100,45 @@ function make_m(multiplicity){
     for(let i =0; i < max_m.length; i++){
         min_m.push(max_m[i]*(-1))
     }
-    const spin_point = []
+    const spin_point = [];
+    const m_point = [];
     for(let i = 0; i < max_m.length; i++){
         const s1p = []
+        m_point.push([])
         for(j = min_m[i] ; j < max_m[i]+1 ; j += 2 ){
             s1p.push(j*0.5)
+            m_point[i].push(new TreePoint(i,j))
         }
         spin_point.push(s1p);
     }
 
-    return spin_point;
+    return [spin_point, m_point];
 }
 
+function make_Connection(pathI, mul3dxyz){
+    for(let i = 0;i < mul3dxyz.length; i++){
+        for(let j = i; j < mul3dxyz.length; j++ ){
+          if((mul3dxyz[j][0] - mul3dxyz[i][0] ) == 1){
+            if(Math.abs( mul3dxyz[j][2] - mul3dxyz[i][2]) == 0.5){
+              pathI.push(i);
+              pathI.push(j);
 
+            }
+          }
+        }
+      }
+}
 
-for(let nelectron =1 ; nelectron < 30; nelectron++){
-    const pt = GenerateSTree(nelectron)
-    console.log(nelectron)
-    const indx =  GenerateConnection(pt)
-    const mad = []
-    const finalS = 0
-    const st = []
-    for(let i = 0; i < pt[0].length;i++){
-        st.push(-1)
-    }
-    console.log(pt[1][pt[1].length -1 ].length)
-    pt[1][pt[1].length -1 ][finalS].tracePrev(st,mad)
-    console.log(mad.length)
-    console.log()
+function makeMconnection(mpoint){
+    for(let i = 0; i < mpoint.length;i++){
+        for(let j = 0; j < mpoint[i].length; j++){
+            if(i >0){
+            for(let k = 0; k < mpoint[i-1].length; k++){
+            if(Math.abs(mpoint[i-1][k].j- mpoint[i][j].j) == 1){
+                    mpoint[i][j].conn.push(mpoint[i-1][k])
+            }
+        }
+        }
+    }   
+}
 }
