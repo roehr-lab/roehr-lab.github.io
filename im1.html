@@ -52,6 +52,12 @@
     -->
 
     <title>React App</title>
+    <script type="text/javascript" id="MathJax-script" async
+		  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+		</script>
+    <script src="as1.js"></script>
+
+
 
   </head>
 
@@ -61,8 +67,7 @@
 
    
 
-    <script src="as1.js"></script>
-
+    
 
  
 
@@ -81,7 +86,7 @@
       }
 
     </script>
-
+    
     <style>
 
       .info{
@@ -167,6 +172,9 @@
         import { EXRExporter } from 'three/addons/exporters/EXRExporter.js';
 
         import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+        import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
+			  import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js';
+
 
 
  
@@ -194,19 +202,34 @@
 
         let mmpath = 0, finalS = 0;
 
+        const mv = document.getElementById("root");
+        const div = document.createElement( 'div' )
+        const iframe = document.createElement( 'iframe' );
+        let render2;
+
+			
+
         init();
 
         let renderTarget;
         let download = 0;
-
+        
+			
  
 
         function init() {
-
+          console.log(iframe);
+          //iframe.style.width = '480px';
+				//iframe.style.height = '360px';
+				//iframe.style.border = '0px';
+				//iframe.src = [ "m1.html" ].join( '' );
+        //div.appendChild( iframe );
 
  
 
             renderer = new THREE.WebGLRenderer( { antialias: true ,alpha: true } );
+            render2 = new CSS3DRenderer();
+            render2.setSize( window.innerWidth, window.innerHeight );
 
            
 
@@ -218,7 +241,8 @@
 
             const w = 2000;
 
-            //renderer.setSize(w , h );
+            //renderer.setSize(w , h ); 
+            render2.setSize(w , h );
 
             renderer.setAnimationLoop( animation );
 
@@ -452,13 +476,13 @@
 
  
 
-            const gui = new GUI();
+            //const gui = new GUI();
 
-            gui.add( material, 'roughness', 0, 1 );
+            //gui.add( material, 'roughness', 0, 1 );
 
-            gui.add( material, 'metalness', 0, 1 );
+            //gui.add( material, 'metalness', 0, 1 );
 
-            gui.add( renderer, 'toneMappingExposure', 0, 2 ).name( 'exposure' );
+            //gui.add( renderer, 'toneMappingExposure', 0, 2 ).name( 'exposure' );
 
 
  
@@ -547,6 +571,7 @@
             //
 
             firl(nelectron,finalS);
+            
 
             
 
@@ -891,19 +916,38 @@
 
             //console.log("mad2");
             //console.log(mad2);
-            for(let i = 0; i < mad2[mmpath].length; i++){
+            //
+            //  for(let i = 0; i < mad2[mmpath].length; i++){
+//
+            //    sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 1, 8 ), material3 );
+//
+            //    sphere.position.x = i*5;
+//
+            //    sphere.position.y = mad[mpath][i]*5 -10;
+//
+            //    sphere.position.z = mad2[mmpath][i]*2.5 +20;
+//
+            //    scene.add( sphere );
+//
+            //  }
+          //
 
-              sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 1, 8 ), material3 );
 
-              sphere.position.x = i*5;
+          for(let mi = 0; mi < mad2.length; mi++){
+              for(let i = 0; i < mad2[mi].length; i++){
 
-              sphere.position.y = mad[mpath][i]*5 -10;
+                sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 1, 8 ), material3 );
 
-              sphere.position.z = mad2[mmpath][i]*2.5 +20;
+                sphere.position.x = i*5;
 
-              scene.add( sphere );
+                sphere.position.y = mad[mpath][i]*5 -10;
 
-            }
+                sphere.position.z = mad2[mi][i]*2.5 +20;
+
+                scene.add( sphere );
+
+              }
+          }
 
             
 
@@ -1349,9 +1393,9 @@
 
           
 
-          //textR("Addition of electron",matLite, font,1.25*nelectron , -15,1,1, -Math.PI/2,0,0 );
+          textR("Addition of electron",matLite, font,1.25*nelectron , -15,1,1, -Math.PI/2,0,0 );
 
-          textR("Addition of electron",matLite, font,1.25*nelectron , -15,5,1, 0,0,0 );
+          //textR("Addition of electron",matLite, font,1.25*nelectron , -15,5,1, 0,0,0 );
 
           //textR("|",   material3, font,  -6,  -10,   35, 2,   -Math.PI/2,0,0);
           //for(let i = 0; i < mad2[mmpath].length; i++){
@@ -1368,39 +1412,76 @@
 
         
 //}
-
+let slaterDeterminant = "\\displaylines{";
 for(let j = 0; j < mad2.length; j++){
   let cg = 1;
+  let sl = " ";
   for(let i = 0 ; i < mad2[j].length ; i++){
     if(i > 0){
       cg *= CG(mad[mpath][i-1]*0.5,0.5, mad2[j][i-1]*0.5,(mad2[j][i] - mad2[j][i-1])*0.5, mad[mpath][i]*0.5, mad2[j][i]*0.5 )
       if(j == mmpath){
-            console.log(mad2[j][i] -mad2[j][i-1] )
+            //console.log(mad2[j][i] -mad2[j][i-1] )
             if(mad2[j][i] -mad2[j][i-1] != 1){
               textR("\u2191",   material3, font,  -10 - nelectron*2 + 2*i,  -10,  10 -2*mad2.length+ 3*j, 2,   -Math.PI/2,0,0);
+              //textR("b",   material3, font,  -10 - nelectron*2 + 2*i,  -10,  10 -2*mad2.length+ 3*j, 2,   -Math.PI/2,0,0);
+              sl += "\\downarrow";
             }
             else{
               textR("\u2193",   material3, font,  -10  - nelectron*2 + 2*i,  -10, 10 -2*mad2.length+  3*j, 2,   -Math.PI/2,0,0);
+              //textR("a",   material3, font,  -10 - nelectron*2 + 2*i,  -10,  10 -2*mad2.length+ 3*j, 2,   -Math.PI/2,0,0);
+              sl += "\\uparrow";
             }
         }
       else{
-        console.log(mad2[j][i] -mad2[j][i-1] )
+        //console.log(mad2[j][i] -mad2[j][i-1] )
         if(mad2[j][i] -mad2[j][i-1] != 1){
           textR("\u2191",   matLite, font,  -10 - nelectron*2 + 2*i,  -10,  10 -2*mad2.length+ 3*j, 2,   -Math.PI/2,0,0);
+          //textR("b",   matLite, font,  -10 - nelectron*2 + 2*i,  -10,  10 -2*mad2.length+ 3*j, 2,   -Math.PI/2,0,0);
+          sl += "\\downarrow";
         }
         else{
           textR("\u2193",   matLite, font,  -10  - nelectron*2 + 2*i,  -10, 10-2*mad2.length+  3*j, 2,   -Math.PI/2,0,0);
+          //textR("a",   matLite, font,  -10  - nelectron*2 + 2*i,  -10, 10-2*mad2.length+  3*j, 2,   -Math.PI/2,0,0);
+          sl += "\\uparrow";
         }
       }
     }
   }
   textR(parseFloat(cg.toFixed(4)).toString(),   matLite, font,  -10  - nelectron*2 - 10 ,  -10, 10-2*mad2.length+  3*j, 2,   -Math.PI/2,0,0);
-  textR(parseFloat((cg*cg).toFixed(8)).toString(),   matLite, font,  -10  - nelectron*2 - 30 ,  -10, 10-2*mad2.length+  3*j, 2,   -Math.PI/2,0,0);
+  //textR(parseFloat((cg*cg).toFixed(8)).toString(),   matLite, font,  -10  - nelectron*2 - 30 ,  -10, 10-2*mad2.length+  3*j, 2,   -Math.PI/2,0,0);
+  //let lg = decimalToFraction(parseFloat((cg*cg)));
+  //textR(DecimalToFraction(cg),   matLite, font,  -10  - nelectron*2 - 30 ,  -10, 10-2*mad2.length+  3*j, 1,   -Math.PI/2,0,0);
+  //textR((lg.bottom).toString(),   matLite, font,  -10  - nelectron*2 - 30 ,  -10, 10-2*mad2.length+  5*j +2, 1,   -Math.PI/2,0,0);
+
   
-  console.log("print");
-  console.log(cg);
+  //console.log("print");
+
+  
+  
+
+  const tex = "\\alpha \\beta";
+  div.innerHTML='ifjoerijfrij';
+  slaterDeterminant += DecimalToFraction(cg)+"\\vert"+sl+"\\rangle \\\\";
+
+  console.log(DecimalToFraction(cg)+sl);
 }
 
+div.style.width = '480px';
+//div.style.height = '360px';
+div.style.fontSize = '1cm';
+div.style.backgroundColor = "rbga(0,255,0,0.5)";
+//div.style.opacity= 0.5;
+MathJax.tex2chtmlPromise(slaterDeterminant+"}").then((node) => {
+        div.innerHTML='';
+        div.append(node);
+        MathJax.startup.document.clear();
+        MathJax.startup.document.updateDocument();
+    });
+const object = new CSS3DObject( div );
+console.log(object);
+object.position.set( 0, 0, 0 );
+object.rotation.y = 1;
+mv.appendChild(div);
           
          
           //textR("\u27e9",   material3, font,  -5 + 2*(nelectron + 1),  -10,   35, 2,   -Math.PI/2,0,0);
@@ -1572,7 +1653,7 @@ slider.oninput = function() {
 
   console.log(scene.children.length);
 
-  for(let i = 0; i < 500; i++){
+  for(let i = 0; i < 2000; i++){
 
     if(scene.children.length > 10){
 
@@ -1582,11 +1663,11 @@ slider.oninput = function() {
 
   }
   finalS = this.value;
-  firl(nelectron,this.value);
+  setTimeout(200,firl(nelectron,this.value));
 
   //slider3.max = maxpath.toString();
   //setTimeout(bail,200);
-  sail();
+  //sail();
   //slider4.max = maxmpath.toString();
 
   
@@ -1608,7 +1689,7 @@ slider3.oninput = function(){
 
   console.log(scene.children.length);
 
-  for(let i = 0; i < 500; i++){
+  for(let i = 0; i < 2000; i++){
 
     if(scene.children.length > 10){
 
@@ -1618,9 +1699,9 @@ slider3.oninput = function(){
 
   }
 
-  firl(nelectron,slider.value);
+  setTimeout(100,firl(nelectron,slider.value));
   //setTimeout(bail,200);
-  sail();
+  //sail();
 
   //slider4.max = maxmpath.toString();
 
@@ -1652,7 +1733,7 @@ slider4.oninput = function(){
 
   firl(nelectron,slider.value);
   //setTimeout(bail,200);
-  sail();
+  //sail();
 }
 
 
@@ -1680,7 +1761,7 @@ slider5.oninput = function(){
 
   firl(nelectron,slider.value);
   //setTimeout(bail,200);
-  sail();
+  //sail();
 
 }
 
@@ -1808,7 +1889,7 @@ function bail (){
           bail();
         }
         resolve(i);
-      },1000);
+      },500);
     });
   }
 async function f1(){
@@ -1893,6 +1974,35 @@ async function f1(){
 
 
 
+function gcd(a, b) {
+	return (b) ? gcd(b, a % b) : a;
+}
+var decimalToFraction = function (_decimal) {
+    if (_decimal == parseInt(_decimal)) {
+        return {
+            top: parseInt(_decimal),
+            bottom: 1,
+            display: parseInt(_decimal) + '/' + 1
+        };
+    }
+    else {
+        var top = _decimal.toString().includes(".") ? _decimal.toString().replace(/\d+[.]/, '') : 0;
+        var bottom = Math.pow(10, top.toString().replace('-','').length);
+        if (_decimal >= 1) {
+            top = +top + (Math.floor(_decimal) * bottom);
+        }
+        else if (_decimal <= -1) {
+            top = +top + (Math.ceil(_decimal) * bottom);
+        }
+
+        var x = Math.abs(gcd(top, bottom));
+        return {
+            top: (top / x),
+            bottom: (bottom / x),
+            display: (top / x) + '/' + (bottom / x)
+        };
+    }
+};
 
  
 
@@ -1972,6 +2082,11 @@ async function f1(){
 
 function CG(j1,j2,m1,m2,j3,m3){
   return Module.ccall("CG","number",["number","number","number","number","number","number"],[j1,j2,m1,m2,j3,m3]);
+}
+
+
+function DecimalToFraction(j1){
+  return Module.ccall("DecToFrac","string",["number"],[j1]);
 }
 
     </script>
