@@ -103,29 +103,42 @@
 
       <h1 >Branching diagram for different spin state of Unpaired electron </h1>
 
-      <p>Slide the slider to get various Spin chain based on S and M</p>
-      <p>Press "D" to run animation </p>
+      <p style="font-size: 25px;">Slide the slider to get various Spin chain based on S and M</p>
+      <p style="font-size: 25px;">Press "D" to run animation </p>
       <div class="slidecontainer">
+        <table style="width:100%;font-size: 25px;">
+          <tr>
+            <td>Number of electron </td>
+            <td> <input type="text" id ="nelec" name="lname" value="4"></td>
+            <td><span id="nm1">4</span></td>
+          <br><br>
+          </tr><tr>
+            <td>Select the final S</td>
+            <td><input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange"></td>
+            <td><span id="nm2">0</span><br></td>
+      </tr><tr>
+        <td>Select the pathway of S for generting M network </td>
+        <td><input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange3"></td>
+        <td><span id="nm3">0</span><br></td>
+      </tr><tr>
+        <td>select the pathway of M </td>
+        <td><input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange4"></td>
+        <td><span id="nm4">0</span><br></td>
+      </tr><tr>
+        <td>select the pathway of final  M </td>
+        <td><input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange5"></td>
+        <td><span id="nm5">0</span><br></td>
 
-        Number of electron <input type="text" id ="nelec" name="lname" value="4"><br><br>
+      </tr>
+    </table>
+<br><br>
+        <button id="myRange2" style="font-size: 25px;">Generate Diagram</button>
 
-        Select the final S<input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange"><br>
+        <button class="w3-btn w3-teal" id="getImage" style="font-size: 25px;">Download Image</button>
 
-        Select the pathway of S for generting M network <input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange3"><br>
+        <p><span id="demo"></span></p>
 
-        select the pathway of M <input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange4"><br>
-
-        select the pathway of final  M <input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange5"><br>
-
-        
-
-        <button id="myRange2">Generate Diagram</button>
-
-        <button class="w3-btn w3-teal" id="getImage" >Download Image</button>
-
-        <p>Value: <span id="demo">0</span></p>
-
-        <p>Value: <span id="demo2">0</span></p>
+        <p><span id="demo2"></span></p>
 
 
  
@@ -264,7 +277,7 @@
 
             stats = new Stats();
 
-            document.body.appendChild( stats.dom );
+            //document.body.appendChild( stats.dom );
 
 
  
@@ -1646,6 +1659,8 @@ output.innerHTML = slider.value;
 slider.oninput = function() {
 
   output2.innerHTML = this.value;
+  var vv1 = document.getElementById("nm2");
+  vv1.innerHTML = this.value;
 
   console.log("fiel");
 
@@ -1655,7 +1670,7 @@ slider.oninput = function() {
 
   for(let i = 0; i < 2000; i++){
 
-    if(scene.children.length > 10){
+    if(scene.children.length > 5){
 
       scene.remove(scene.children[scene.children.length -1 ]);
 
@@ -1682,6 +1697,9 @@ slider.oninput = function() {
 slider3.oninput = function(){
 
   output.innerHTML = this.value;
+  var vv1 = document.getElementById("nm3");
+  vv1.innerHTML = this.value;
+
 
   mpath = parseInt(this.value);
 
@@ -1691,7 +1709,7 @@ slider3.oninput = function(){
 
   for(let i = 0; i < 2000; i++){
 
-    if(scene.children.length > 10){
+    if(scene.children.length > 5){
 
       scene.remove(scene.children[scene.children.length -1 ]);
 
@@ -1716,6 +1734,9 @@ slider4.oninput = function(){
   output.innerHTML = this.value;
 
   mmpath = parseInt(this.value);
+  var vv1 = document.getElementById("nm4");
+  vv1.innerHTML = this.value;
+
 
   console.log(slider4.max);
 
@@ -1723,7 +1744,7 @@ slider4.oninput = function(){
 
   for(let i = 0; i < 500; i++){
 
-    if(scene.children.length > 10){
+    if(scene.children.length > 5){
 
       scene.remove(scene.children[scene.children.length -1 ]);
 
@@ -1745,13 +1766,17 @@ slider5.oninput = function(){
 
   finalM = parseInt(this.value);
 
+  var vv1 = document.getElementById("nm5");
+  vv1.innerHTML = this.value;
+
+
   console.log(slider5.max);
 
   console.log(scene.children.length);
 
   for(let i = 0; i < 500; i++){
 
-    if(scene.children.length > 10){
+    if(scene.children.length > 5){
 
       scene.remove(scene.children[scene.children.length -1 ]);
 
@@ -1770,12 +1795,14 @@ slider2.onclick = function() {
   output.innerHTML = this.value;
 
   var enee = document.getElementById("nelec");
+  var nvee = document.getElementById("nm1");
+  nvee.innerHTML = enee.value;
 
   console.log(scene.children.length);
 
   for(let i = 0; i < 500; i++){
 
-    if(scene.children.length > 10){
+    if(scene.children.length > 5){
 
       scene.remove(scene.children[scene.children.length -1 ]);
 
