@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-	<title>reveal.js</title>
+	<title>roehr-lab</title>
 
 	<link rel="stylesheet" href="https://unpkg.com/reveal.js@5.1.0/dist/reset.css">
 	<link rel="stylesheet" href="https://unpkg.com/reveal.js@5.1.0/dist/reveal.css">
@@ -271,7 +271,7 @@ Auto-fill & Equal height === */
 									<table style="width:100%;font-size: 25px;">
 										<tr>
 											<td>Number of electron </td>
-											<td> <input type="text" id="nelec" name="lname" value="4"></td>
+											<td> <input type="text" id="nelec" name="lname" value="6"></td>
 											<td><span id="nm1">6</span></td>
 											<br><br>
 										</tr>
@@ -1375,6 +1375,7 @@ preloadIframes: true,
 
 			camera = new THREE.PerspectiveCamera(45, 1, 1, 1000);
 			//camera = new THREE.PerspectiveCamera( 30, 1, 1, 1000 );
+			console.log(can.parentElement.clientWidth);
 			camera.position.z = can.parentElement.clientWidth / 60 + (nelectron * 20) / 2;
 			camera.position.y = 0;
 			//camera.position.x = 10;
