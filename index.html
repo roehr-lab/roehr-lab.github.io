@@ -166,6 +166,10 @@ Auto-fill & Equal height === */
 			font-size: medium;
 			color: darkblue;
 		}
+
+		.reveal .playback{
+			width: 200px;
+		}
 	</style>
 
 </head>
@@ -183,6 +187,63 @@ Auto-fill & Equal height === */
 
 
 
+			<section data-background-color="white" data-background-image="nsd/ic1.png">
+				<h2>Fragment Molecular Orbital Configuration Interaction
+					Methodology for the Description of Correlated States in
+					Extended Molecular Aggregates</h2>
+					<p>Project of</p>
+				<h4>Anurag Singh</h4>
+			</section>
+
+			<section data-background-color="white">
+				<h2><strong>Project</strong></h2>
+				<div class="wrap">
+
+					<div class="grid vertical-align">
+
+						<div class="column">
+							<h4>
+								Symbolic-CI Software Development
+							</h4>
+							<div style="height: 100%; background-color: white; ">
+								<img class="aligncenter" src="nsd/Point.png" alt="WebSlides Files">
+							</div>
+						</div>
+
+						<div class="column">
+							<h4>
+								Singlet Fission model for Trimer
+							</h4>
+							<div style="height: 100%; background-color: white; ">
+								<img class="aligncenter" src="nsd//fig12.png" alt="WebSlides Files">
+							</div>
+						</div>
+						<div class="column">
+							<h4>
+								SFast Software Development for Dimer
+							</h4>
+							<div style="height: 100%; background-color: white; ">
+								<figure><img class="aligncenter" src="nsd/PBI_abs_full.png" alt="WebSlides Files">
+									<img class="aligncenter" src=".nsd/PBI_non-adiabatic.png">
+								</figure>
+							</div>
+						</div>
+						<div class="column">
+							<h4>
+								SFast , B-N doping and optimisation
+							</h4>
+							<div style="height: 100%; background-color: white; ">
+								<figure><img class="aligncenter" src="nsd/selected_isomers.png"
+										alt="WebSlides Files"></figure>
+							</div>
+						</div>
+
+
+					</div>
+
+					<!--end .grid -->
+				</div>
+			</section>
 
 			<section data-background-color="white">
 				<h4>Software Development for Fragment Molecular Orbital base Configuration Interaction </h4>
@@ -211,7 +272,7 @@ Auto-fill & Equal height === */
 										<tr>
 											<td>Number of electron </td>
 											<td> <input type="text" id="nelec" name="lname" value="4"></td>
-											<td><span id="nm1">4</span></td>
+											<td><span id="nm1">6</span></td>
 											<br><br>
 										</tr>
 										<tr>
@@ -249,9 +310,9 @@ Auto-fill & Equal height === */
 									<button class="w3-btn w3-teal" id="getImage" style="font-size: 25px;">Download
 										Image</button>
 									<!--<button class="w3-btn w3-teal" id="getLatex" >Get Latex</button>-->
-									<p><span id="demo"></span></p>
+									<!-- <p><span id="demo"></span></p>
 									<p><span id="demo2"></span></p>
-									<div id="root"></div>
+									<div id="root"></div> -->
 								</div>
 							</div>
 
@@ -272,6 +333,929 @@ Auto-fill & Equal height === */
 				</div>
 
 			</section>
+			<section data-background-color="white">
+				<h3> WaveFunction Construction</h3>
+				<div class="wrap">
+					<div class="grid">
+						<div class="column">
+							<div class="bg-white shadow" style="font-size:x-large;text-align: left;">
+								
+								<div class="diagram">
+									<img src="nsd/Spoint.png">
+
+								</div>
+								<h3>Wave Function Representation</h3>
+								<p>The wave function with spin-only information is transformed as follows:</p>
+								<div class="equation">
+									<em>Equation:</em> \( \vert \Psi^{S_{pathway}}_{(^{i}s)} \rangle =
+									\sum^{M_{pathways}}_{k} CG_{k} \vert s_{1},m_{1} \rangle \otimes ... \vert
+									s_{n},m_{n} \rangle \)
+								</div>
+								<p>Using creation operators, the wave function becomes:</p>
+								<div class="equation">
+									\( \vert \Psi^{S_{pathway}}_{(^{i}s)} \rangle = \sum^{M_{pathways}}_{k} \sum_{k}
+									CG_{k} C^{\dagger}_{\vert s,m\rangle_{j}} ... \vert -\rangle \)
+								</div>
+							</div>
+
+						</div>
+
+
+						<div class="column" style="font-size: x-large;">
+
+
+							<p>
+								The Creation and annihilation operator is defined as:
+								$$
+								a^{\dagger} = \begin{pmatrix}
+								0 & 0 \\
+								1 & 0
+								\end{pmatrix}
+								,
+								a = \begin{pmatrix}
+								0 & 1 \\
+								0 & 0
+								\end{pmatrix}
+								$$
+							</p>
+
+
+							<p>Creation operator for an electron in spatial orbtal \( \psi
+								\)
+							</p>
+							<p>
+								\(\textbf{a}^{\dagger}_{\sigma \psi} = (\mathbf{s} \otimes ....\otimes
+								\mathbf{s}
+								\otimes
+								a^{\dagger}_{\sigma } \otimes \unicode{x1D7D9}^{2} \otimes .... \otimes
+								\unicode{x1D7D9}^{2})\psi.
+								\)
+							</p>
+							\begin{equation}
+							\begin{split}
+							\left\langle\Psi_{m}\right|\hat{H}\left|\Psi_{n}\right\rangle = \sum_{i,j =
+							1}^{d}\sum_{s_{i},s_{j} =
+							\uparrow,\downarrow}T_{ij}\left\langle\Psi_{m}\right|\textbf{a}_{i,s_{i}}^{\dagger}\textbf{a}_{j,s_{j}}\left|\Psi_{n}\right\rangle
+							\\ + \frac{1}{2}\sum_{i,j,k,l = 1}^{d}\sum_{s_{i},s_{j},s_{k},s_{l} =
+							\uparrow,\downarrow}V_{ijkl}\left\langle\Psi_{m}\right|\textbf{a}_{i,s_{i}}^{\dagger}
+							\textbf{a}_{j,s_{j}}^{\dagger}\textbf{a}_{k,s_{k}}
+							\textbf{a}_{l,s_{l}}\left|\Psi_{n}\right\rangle,
+							\label{eq:coup}
+							\end{split}
+							\end{equation}
+						</div>
+
+					</div>
+				</div>
+			</section>
+
+			<section data-background-color="white">
+				<h3>Singlet fission model for PDI trimer</h3>
+				<div class="wrap">
+					<div class="grid">
+						<div class="column">
+							<div class="bg-white shadow">
+								<img width="70%" src="nsd/figure1_scheme_structure.png">
+								<!-- <img width="50%" src="../newSD/thesis/pbi.png"> -->
+							</div>
+						</div>
+						<div class="column" style="font-size:x-large;text-align: left; ">
+
+							<p>A perylene diimide stack with three monomers (<i>m</i>, <i>n</i>, <i>o</i>) is
+								considered.</p>
+
+							<p>HOMO and LUMO of each monomer are included.</p>
+
+							<p>Assuming singlet multiplicity, 19 diabatic states are constructed:</p>
+							<ul>
+								<li>1 ground state (GS)</li>
+								<li>3 locally excited singlet states (LE)</li>
+								<li>6 charge transfer states (CT)</li>
+								<li>6 doubly excited mixed CT-triplet states</li>
+								<li>3 correlated paired triplet states (<sup>1</sup>TT)</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+
+
+			<section data-background-color="white">
+				<h3>Example Wave Function </h3>
+				<div class="wrap">
+					<div class="grid vertical-align">
+						<div class="column" style="font-size: x-large;">
+							\begin{equation}
+							| \text{S}_{1}\text{S}_{0}\text{S}_{0} \rangle = \substack{
+							\displaystyle{ - \frac { 1 }{ \sqrt { 8}}} \colorbox{yellow}{$ h_{m_{\uparrow} }
+							l_{m_{\downarrow} } $ } \colorbox{green}{$ \color{white}{ h_{o_{\uparrow}}
+							h_{o_{\downarrow}} h_{n_{\uparrow} } h_{n_{\downarrow}}} $}
+							\displaystyle{ + \frac { 1 }{ \sqrt { 8}}} \colorbox{yellow}{$ h_{m_{\downarrow} }
+							l_{m_{\uparrow} } $ } \colorbox{green}{$ \color{white}{ h_{o_{\uparrow}} h_{o_{\downarrow}}
+							h_{n_{\uparrow} } h_{n_{\downarrow}}} $}\\
+							\displaystyle{ + \frac { 1 }{ \sqrt { 8}}} \colorbox{yellow}{$ h_{m_{\uparrow} }
+							l_{m_{\downarrow} } $ } \colorbox{green}{$ \color{white}{ h_{o_{\downarrow}}
+							h_{o_{\uparrow}} h_{n_{\uparrow} } h_{n_{\downarrow}}} $}
+							\displaystyle{ - \frac { 1 }{ \sqrt { 8}}} \colorbox{yellow}{$ h_{m_{\downarrow} }
+							l_{m_{\uparrow} } $ } \colorbox{green}{$ \color{white}{ h_{o_{\downarrow}} h_{o_{\uparrow}}
+							h_{n_{\uparrow} } h_{n_{\downarrow}}} $}\\
+							\displaystyle{ + \frac { 1 }{ \sqrt { 8}}} \colorbox{yellow}{$ h_{m_{\uparrow} }
+							l_{m_{\downarrow} } $ } \colorbox{green}{$ \color{white}{ h_{o_{\uparrow}}
+							h_{o_{\downarrow}} h_{n_{\downarrow} } h_{n_{\uparrow}}} $}
+							\displaystyle{ - \frac { 1 }{ \sqrt { 8}}} \colorbox{yellow}{$ h_{m_{\downarrow} }
+							l_{m_{\uparrow} } $ } \colorbox{green}{$ \color{white}{ h_{o_{\uparrow}} h_{o_{\downarrow}}
+							h_{n_{\downarrow} } h_{n_{\uparrow}}} $}\\
+							\displaystyle{ - \frac { 1 }{ \sqrt { 8}}} \colorbox{yellow}{$ h_{m_{\uparrow} }
+							l_{m_{\downarrow} } $ } \colorbox{green}{$ \color{white}{ h_{o_{\downarrow}}
+							h_{o_{\uparrow}} h_{n_{\downarrow} } h_{n_{\uparrow}}} $}
+							\displaystyle{ + \frac { 1 }{ \sqrt { 8}}} \colorbox{yellow}{$ h_{m_{\downarrow} }
+							l_{m_{\uparrow} } $ } \colorbox{green}{$ \color{white}{ h_{o_{\downarrow}} h_{o_{\uparrow}}
+							h_{n_{\downarrow} } h_{n_{\uparrow}}} $}
+							}
+							\label{eq:LE}
+							\end{equation}
+							
+
+						</div>
+						<div class="column">
+							<div class="bg-white shadow" style="font-size: x-large;">
+								\begin{equation}
+								| \text{TS}_{0}\text{T} \rangle = \substack{
+								\displaystyle{ - \frac { 1 }{ \sqrt { 6}} } \colorbox{yellow}{ $ h_{m_{\uparrow}}
+								l_{m_{\uparrow}} h_{o_{\downarrow}} l_{o_{\downarrow}} $ } \colorbox{green}{ $
+								\color{white}{ h_{n_{\uparrow}} h_{n_{\downarrow}}} $}
+								\displaystyle{ - \frac { 1 }{ \sqrt { 6}} } \colorbox{yellow}{ $ h_{m_{\downarrow}}
+								l_{m_{\downarrow}} h_{o_{\uparrow}} l_{o_{\uparrow}} $ } \colorbox{green}{ $
+								\color{white}{ h_{n_{\uparrow}} h_{n_{\downarrow}}} $}\\
+								\displaystyle{ + \frac { 1 }{ \sqrt { 6}} } \colorbox{yellow}{ $ h_{m_{\uparrow}}
+								l_{m_{\uparrow}} h_{o_{\downarrow}} l_{o_{\downarrow}} $ } \colorbox{green}{ $
+								\color{white}{ h_{n_{\downarrow}} h_{n_{\uparrow}}} $}
+								\displaystyle{ + \frac { 1 }{ \sqrt { 6}} } \colorbox{yellow}{ $ h_{m_{\downarrow}}
+								l_{m_{\downarrow}} h_{o_{\uparrow}} l_{o_{\uparrow}} $ } \colorbox{green}{ $
+								\color{white}{ h_{n_{\downarrow}} h_{n_{\uparrow}}} $}\\
+								\displaystyle{ + \frac { 1 }{ \sqrt { 24}} } \colorbox{yellow}{ $ h_{m_{\uparrow}}
+								l_{m_{\downarrow}} h_{o_{\uparrow}} l_{o_{\downarrow}} $ } \colorbox{green}{ $
+								\color{white}{ h_{n_{\uparrow}} h_{n_{\downarrow}}} $}
+								\displaystyle{ + \frac { 1 }{ \sqrt { 24}} } \colorbox{yellow}{ $ h_{m_{\downarrow}}
+								l_{m_{\uparrow}} h_{o_{\uparrow}} l_{o_{\downarrow}} $ } \colorbox{green}{ $
+								\color{white}{ h_{n_{\uparrow}} h_{n_{\downarrow}}} $}\\
+								\displaystyle{ + \frac { 1 }{ \sqrt { 24}} } \colorbox{yellow}{ $ h_{m_{\uparrow}}
+								l_{m_{\downarrow}} h_{o_{\downarrow}} l_{o_{\uparrow}} $ } \colorbox{green}{ $
+								\color{white}{ h_{n_{\uparrow}} h_{n_{\downarrow}}} $}
+								\displaystyle{ + \frac { 1 }{ \sqrt { 24}} } \colorbox{yellow}{ $ h_{m_{\downarrow}}
+								l_{m_{\uparrow}} h_{o_{\downarrow}} l_{o_{\uparrow}} $ } \colorbox{green}{ $
+								\color{white}{ h_{n_{\uparrow}} h_{n_{\downarrow}}} $}\\
+								\displaystyle{ - \frac { 1 }{ \sqrt { 24}} } \colorbox{yellow}{ $ h_{m_{\uparrow}}
+								l_{m_{\downarrow}} h_{o_{\uparrow}} l_{o_{\downarrow}} $ } \colorbox{green}{ $
+								\color{white}{ h_{n_{\downarrow}} h_{n_{\uparrow}}} $}
+								\displaystyle{ - \frac { 1 }{ \sqrt { 24}} } \colorbox{yellow}{ $ h_{m_{\downarrow}}
+								l_{m_{\uparrow}} h_{o_{\uparrow}} l_{o_{\downarrow}} $ } \colorbox{green}{ $
+								\color{white}{ h_{n_{\downarrow}} h_{n_{\uparrow}}} $}\\
+								\displaystyle{ - \frac { 1 }{ \sqrt { 24}} } \colorbox{yellow}{ $ h_{m_{\uparrow}}
+								l_{m_{\downarrow}} h_{o_{\downarrow}} l_{o_{\uparrow}} $ } \colorbox{green}{ $
+								\color{white}{ h_{n_{\downarrow}} h_{n_{\uparrow}}} $}
+								\displaystyle{ - \frac { 1 }{ \sqrt { 24}} } \colorbox{yellow}{ $ h_{m_{\downarrow}}
+								l_{m_{\uparrow}} h_{o_{\downarrow}} l_{o_{\uparrow}} $ } \colorbox{green}{ $
+								\color{white}{ h_{n_{\downarrow}} h_{n_{\uparrow}}} $}
+								}
+								\label{eq:TST}
+								\end{equation}
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section data-background-color="white">
+				<h3>Couplings and Energies expressions</h3>
+				<div class="wrap">
+					<div class="grid">
+						<div class="column" style="font-size: x-large;">
+							
+							\begin{equation}
+							\langle \text{TS}_{0}\text{T} \vert \hat{\text{T}} \vert \text{TS}_{0}\text{T} \rangle =
+							2\langle h_{n} | \hat{\text{h}} | h_{n} \rangle + \langle l_{m} | \hat{\text{h}} | l_{m}
+							\rangle + \langle h_{m} | \hat{\text{h}} | h_{m} \rangle + \langle l_{o} | \hat{\text{h}} |
+							l_{o} \rangle + \langle h_{o} | \hat{\text{h}} | h_{o} \rangle
+							\label{eq:etst1}
+							\end{equation}
+
+							\begin{equation}
+							\begin{split}
+							\langle \text{TS}_{0}\text{T} \vert \hat{\text{G}} \vert \text{TS}_{0}\text{T} \rangle = &
+							\colorbox{yellow}{$ + \frac{1}{2} (h_{m} h_{o} |h_{o} h_{m}) $ }
+							\colorbox{yellow}{$ + \frac{1}{2} (h_{m} l_{o} |l_{o} h_{m}) $ }\\&
+							\colorbox{yellow}{$ + \frac{1}{2} (h_{o} l_{m} |l_{m} h_{o}) $ }
+							\colorbox{yellow}{$ + \frac{1}{2} (l_{m} l_{o} |l_{o} l_{m}) $ }\\&
+							\colorbox{green}{$ \color{white}{+ (h_{m} h_{m} |h_{o} h_{o}) }$ }
+							\colorbox{green}{$ \color{white}{+ (h_{m} h_{m} |l_{m} l_{m}) }$ }\\&
+							\colorbox{green}{$ \color{white}{+ (h_{m} h_{m} |l_{o} l_{o}) }$ }
+							\colorbox{green}{$ \color{white}{+ (h_{o} h_{o} |l_{m} l_{m}) }$ }\\&
+							\colorbox{green}{$ \color{white}{+ (h_{o} h_{o} |l_{o} l_{o}) }$ }
+							\colorbox{green}{$ \color{white}{+ (l_{m} l_{m} |l_{o} l_{o}) }$ }\\&
+							\colorbox{orange}{$ + 2 (h_{n} h_{n} |h_{n} h_{n}) $ }
+							\colorbox{orange}{$ + 2 (h_{m} h_{m} |h_{n} h_{n}) $ }
+							\colorbox{orange}{$ + 2 (h_{o} h_{o} |h_{n} h_{n}) $ }\\&
+							\colorbox{orange}{$ + 2 (h_{n} h_{n} |l_{m} l_{m}) $ }
+							\colorbox{orange}{$ + 2 (h_{n} h_{n} |l_{o} l_{o}) $ }\\&
+							\colorbox{pink}{$ - (h_{m} h_{n} |h_{n} h_{m}) $ }
+							\colorbox{pink}{$ - (h_{m} l_{m} |l_{m} h_{m}) $ }\\&
+							\colorbox{pink}{$ - (h_{o} h_{n} |h_{n} h_{o}) $ }
+							\colorbox{pink}{$ - (h_{o} l_{o} |l_{o} h_{o}) $ }\\&
+							\colorbox{pink}{$ - (h_{n} l_{m} |l_{m} h_{n}) $ }
+							\colorbox{pink}{$ - (h_{n} l_{o} |l_{o} h_{n}) $ }
+							\end{split}
+							\label{eq:etst2}
+							\end{equation}
+
+							
+						</div>
+
+						<div class="column" style="font-size: x-large;">
+
+							<!-- \begin{equation}
+							\langle \text{ACT} | \hat{\text{T}} | \text{TS}_{0}\text{T} \rangle = - \langle h_{n} |
+							\hat{\text{h}} | h_{m} \rangle
+							\label{eq:ACT_TST_1}
+							\end{equation}
+							\begin{equation}
+							\begin{split}
+							\langle \text{ACT} | \hat{\text{G}} | \text{TS}_{0}\text{T} \rangle = &
+							\colorbox{yellow} {$ +\frac{3}{2} (h_{n} h_{o} | h_{o} h_{m} )$ }
+							\colorbox{yellow} {$ +\frac{3}{2} (h_{n} l_{o} | l_{o} h_{m} )$ }\\&
+							\colorbox{green} {$ - (h_{m} h_{m} | h_{n} h_{m} )$ }
+							\colorbox{green} {$ - (h_{n} h_{m} | h_{n} h_{n} )$ }\\&
+							\colorbox{green} {$ - (h_{n} h_{m} | h_{o} h_{o} )$ }
+							\colorbox{green} {$ - (h_{n} h_{m} | l_{m} l_{m} )$ }
+							\colorbox{green} {$ - (h_{n} h_{m} | l_{o} l_{o} )$ }
+							\end{split}
+							\label{eq:ACT_TST_2}
+							\end{equation}
+							\hline -->
+							\begin{equation}
+							\langle \text{CAT} | \hat{\text{T}} | \text{S}_{0}\text{TT} \rangle = - \langle h_{m} |
+							\hat{\text{h}} | h_{n} \rangle
+							\label{eq:CAT_STT_1}
+							\end{equation}
+							\begin{equation}
+							\begin{split}
+							\langle \text{CAT} | \hat{\text{G}} | \text{S}_{0}\text{TT} \rangle = &
+							\colorbox{yellow} { $ \frac{3}{2} (h_{m} h_{o} | h_{o} h_{n}) $}
+							\colorbox{yellow} { $ +\frac{3}{2} (h_{m} l_{o} | l_{o} h_{n}) $}\\&
+							\colorbox{green} {$ \color{white}{- (h_{m} h_{m} | h_{m} h_{n}) }$ }
+							\colorbox{green} {$ \color{white}{- (h_{m} h_{n} | h_{n} h_{n}) }$ }\\&
+							\colorbox{green} {$ \color{white}{- (h_{m} h_{n} | h_{o} h_{o}) }$ }
+							\colorbox{green} {$ \color{white}{- (h_{m} h_{n} | l_{n} l_{n}) }$ }
+							\colorbox{green} {$ \color{white}{- (h_{m} h_{n} | l_{o} l_{o}) }$ }
+							\end{split}
+							\label{eq:CAT_STT_2}
+							\end{equation}
+							<!-- In the transfer of states $\langle \text{ACT} | \hat{\text{H}} | \text{S}_{0}\text{TT}
+							\rangle$ and $\langle \text{CAT} | \hat{\text{H}} | \text{TS}_{0}\text{T} \rangle$,
+							electrons move from the LUMO of fragment $m$ to the LUMO of fragment $n$. Similar to
+							previous expressions they have both one-electron integral terms (as shown in equations
+							\ref{eq:ACT_STT_1} and \ref{eq:CAT_TST_1}) and ERI terms (as shown in equations
+							\ref{eq:ACT_STT_2} and \ref{eq:CAT_TST_2}). The different ERI terms are $2 (l_{m} l_{n} |$ $
+							h_{m} h_{m})$ in $\langle \text{ACT} | \hat{\text{H}} | \text{S}_{0}\text{TT} \rangle$ and
+							$2 (l_{m} l_{n} | h_{n} h_{m})$ in $\langle \text{CAT} | \hat{\text{H}} |
+							\text{TS}_{0}\text{T} \rangle$.
+
+							In equations \ref{eq:ACT_STT_2} and \ref{eq:CAT_TST_2}, the ERIs shown with a yellow
+							background represent exchange integrals with a coefficient of $\frac{1}{2}$ and have
+							orbitals of the stationary triplet fragment, i.e., $h_{o}$ and $l_{o}$. Those with a green
+							background represent Coulomb integrals. The ERI terms with an orange background are Coulomb
+							integrals involving the doubly occupied orbitals and have a coefficient of 2, while the ERI
+							terms in pink are exchange integrals involving the fragments participating in the
+							transition.
+							\begin{equation}
+							\langle \text{ACT} | \hat{\text{T}} | \text{S}_{0}\text{TT} \rangle = \langle l_{m} |
+							\hat{\text{h}} | l_{n} \rangle
+							\label{eq:ACT_STT_1}
+							\end{equation}
+							\begin{equation}
+							\begin{split}
+							\langle \text{ACT} | \hat{\text{G}} | \text{S}_{0}\text{TT} \rangle = &
+							\colorbox{orange} {$ + 2 (l_{n} l_{m} | h_{m} h_{m} ) $ }\\&
+							\colorbox{yellow} {$ + \frac{1}{2} ( l_{n} h_{o} | h_{o} l_{m} ) $}
+							\colorbox{yellow} {$ + \frac{1}{2} ( l_{n} l_{o} | l_{o} l_{m} ) $}\\&
+							\colorbox{pink} { $ - (l_{n} h_{m} | h_{m} l_{m} ) $}
+							\colorbox{pink} { $ - (l_{n} h_{n} | h_{n} l_{m} ) $}\\&
+							\colorbox{green} {$ + (l_{n} l_{m} | h_{n} h_{n} ) $}
+							\colorbox{green} {$ + (l_{n} l_{m} | h_{o} h_{o} ) $}
+							\colorbox{green} {$ + (l_{n} l_{m} | l_{o} l_{o} ) $}\\&
+							\end{split}
+							\label{eq:ACT_STT_2}
+							\end{equation}
+
+							\hline -->
+							\begin{equation}
+							\langle \text{CAT} | \hat{\text{T}} | \text{TS}_{0}\text{T} \rangle = \langle l_{n} |
+							\hat{\text{h}} | l_{m} \rangle
+							\label{eq:CAT_TST_1}
+							\end{equation}
+							\begin{equation}
+							\begin{split}
+							\langle \text{CAT} | \hat{\text{G}} | \text{TS}_{0}\text{T} \rangle =&
+							\colorbox{orange} { $ +2 (l_{m} l_{n} | h_{n} h_{n} ) $ }\\&
+							\colorbox{yellow} { $ + \frac{1}{2} (l_{m} h_{o} | h_{o} l_{n} ) $ }
+							\colorbox{yellow} { $ + \frac{1}{2} (l_{m} l_{o} | l_{o} l_{n} ) $ }\\&
+							\colorbox{pink} { $ -(l_{m} h_{m} | h_{m} l_{n}) $ }
+							\colorbox{pink} { $ -(l_{m} h_{n} | h_{n} l_{n}) $ }\\&
+							\colorbox{green} { $ \color{white}{+ (l_{m} l_{n} | h_{m} h_{m} ) } $ }
+							\colorbox{green} { $ \color{white}{+ (l_{m} l_{n} | h_{o} h_{o} ) } $ }
+							\colorbox{green} { $ \color{white}{+ (l_{m} l_{n} | l_{o} l_{o} ) } $ }
+							\end{split}
+							\label{eq:CAT_TST_2}
+							\end{equation}
+
+
+						</div>
+
+					</div>
+			</section>
+			<section data-background-color="white">
+				<h3> incorporation of Core orbital Interaction</h3>
+				<div class="wrap">
+					<div class="grid vertical-align">
+						<div class="column" style="font-size: x-large;">
+							<p>
+								To
+								incorporate
+								the electron repulsion integrals (ERI) contribution of core electrons the electron
+								repulsion
+								interaction
+								term (\(\text{G}_{core}\)) is determined by summing over specific core orbital
+								indices
+								in
+								the
+								expression involving the core density operator.
+
+								The core density operator for the core
+								orbitals is defined as:
+
+								\begin{equation}
+								\mathbf{\hat{D}}_{core} = 2 \mathbf{C}_{core} \mathbf{C}^{\dagger}_{core},
+								\label{eq:D_core}
+								\end{equation}
+
+
+								Thus,
+								\begin{equation}
+								\text{G}_{core} = \sum_{r,s } \mathbf{\hat{D}}_{core} [(pq|rs) - \frac{1}{2}(pr|sq)]
+								\label{eq:V_core}
+								\end{equation}
+
+
+								The effective one-electron operator for active orbitals.
+
+
+
+								\begin{equation}
+								\hat{h}_{act} = \hat{h}^{AO} + \text{G}_{core}.
+								\label{eq:h_act}
+								\end{equation}
+
+
+
+								\begin{equation}
+								\langle \psi_{a} \vert \hat{h}^{MO} \vert \psi_{b} \rangle= \textbf{C}_{a}^{\dagger}
+								\hat{h}_{\text{act}} \textbf{C}_{b} \label{eq:OneI}
+								\end{equation}
+
+								The ERI in
+								the
+								molecular orbital basis are calculated by transforming their counterparts in the
+								atomic
+								orbital (AO) basis:
+
+								\begin{equation}
+								( \psi_{a} \psi_{b} \vert \psi_{c} \psi_{d} ) =
+								\sum_{p}\sum_{q}\sum_{r}\sum_{s}C^{a}_{p}C^{b}_{q}C^{c}_{r}C^{d}_{s} (pq \vert rs)
+								\label{eq:twoI}
+								\end{equation}
+							</p>
+						</div>
+						<div class="column">
+							<div class="bg-white shadow">
+								<img src="nsd/oeb.png">
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section data-background-color="white">
+				<h3>Semi-Empirical AM1 Approximations</h3>
+				<div class="wrap">
+					<div class="grid">
+
+						<div class="column" style="text-align: left; font-size: x-large;">
+							<p>
+								<!-- The Python package <b>PySEQM</b> was used to calculate matrix elements for the
+								transitions.-->
+								The implementation of \( T_{LE \rightarrow ^{1}TT} \) neglects additional
+								two-electron
+								contributions, and the
+								following approximation was used:
+							</p>
+
+							<p>
+								\[
+								^{Fock}T_{RP} = \sqrt{\frac{3}{2}}\left\vert \frac{( l_{A} | \mathbf{\hat{F}} |
+								l_{B} )
+								( l_{A} |
+								\mathbf{\hat{F}} | h_{B} )}{\Delta E(\text{CA})}
+								- \frac{( h_{A} | \mathbf{\hat{F}} | h_{B} ) ( h_{A} | \mathbf{\hat{F}} | l_{B} )
+								}{\Delta E(\text{AC})} \right\vert.
+								\]
+							</p>
+							<p>
+								Then approximated by transitioning from Fock matrix elements to overlap matrix
+								elements,
+								represented as \(\langle \phi |\mathbf{\hat{F}}| \psi \rangle = \epsilon \langle
+								\phi|
+								\psi
+								\rangle\), where \(\epsilon \) is constant. The obtained equation is:
+
+								\begin{equation}
+								^{Overlap}T_{RP} = \sqrt{\frac{3}{2}}\left \vert\frac{\langle l_{A} | l_{B} \rangle
+								\langle l_{A} | h_{B}
+								\rangle}{\Delta E(\text{CA})} - \frac{\langle h_{A} | h_{B} \rangle \langle h_{A} |
+								l_{B}
+								\rangle }{\Delta E(\text{AC})}\right \vert.
+								\end{equation}
+							</p>
+							<p>
+								Additionally, \(\Delta E(\text{CA})\) and \(\Delta E(\text{AC})\) are approximated
+								as
+								one for simplicity.
+							</p>
+							\begin{equation}
+							T_{RP} = \left \vert \langle l_{A} | l_{B} \rangle \langle l_{A} | h_{B} \rangle -
+							\langle
+							h_{A} | h_{B} \rangle \langle h_{A} | l_{B} \rangle \right \vert.
+
+							\end{equation}
+
+
+
+						</div>
+
+						<div class="column" style="text-align: left; font-size: x-large;">
+							<p><img style="width: 40%;" src="nsd/PBI_GEOM.png">
+								<img style="width: 40%;" src="nsd/PBI_GEOM2.png">
+							</p>
+							<p>
+								Cofacially stacked perylene diimide (PDI) dimer molecules were analyzed.
+							</p>
+							<p>
+								The monomer geometry was optimized using the CAM-B3LYP functional, with an
+								interplanar
+								distance of \( \Delta Z = 3.41 \, \AA \).
+							</p>
+							<p>The scan was conducted across spatial displacements \( \Delta X \): 0 to 4 \(\AA\),
+								\(
+								\Delta Y \): 0 to 4 \(\AA\), with a step size of 0.1 \(\AA\).</p>
+
+						</div>
+					</div>
+				</div>
+			</section>
+			<section data-background-color="white">
+				<h3>Semi-Empirical AM1 Approximations</h3>
+				<div class="wrap">
+					<div class="grid">
+						<div class="column" style="text-align: left; font-size: x-large;">
+
+
+							<img style="width: 70%;" src="nsd/PBI_diabatic.png"
+								alt="PBI Diabatic Coupling">
+
+							<img style="width: 55%; left: 200em;" src="overlap-validation.png">
+
+						</div>
+						<div class="column" style="text-align: left; font-size: x-large;">
+							<h4>Benchmarking With Active Space Decomposition (ASD) </h4>
+							<img style="width: 80%;" src="nsd/PBI_ASD.png">
+							<li>An ASD scan was performed using the RAS-CI/cc-pVDZ,
+								employing a RAS(11,4,11)[1,1] configuration.</li>
+
+							<li>The ASD scan results are consistent with earlier studies by Mirjani et al. and
+								Renaud et
+								al.\(^{1,2}\)</li>
+							<li>Resemblance of Semi-Empirical scan to the ab-initio plot is excellent.
+							</li>
+						</div>
+					</div>
+				</div>
+				<div class="footer">[1] F. Mirjani et al., The Journal of Physical Chemistry C 118, 14192 (2014).
+					[2] N. Renaud, P. A. Sherratt, and M. A. Ratner, The Journal of Physical Chemistry Letters 4,
+					1065
+					(2013).
+
+				</div>
+
+			</section>
+			<section data-background-color="white">
+				<div class="wrap">
+					<div class="grid ">
+
+						<div class="column">
+							<div class="bg-white shadow" style="font-size: x-large; text-align: left;">
+								<h3> Non-Adiabatic Couplings</h3>
+								<!-- <p> Loss of energy of exciton due to vibration is big problem in organic material</p> -->
+								<!-- <p> Non-Adiabatic Couplings offer insights in such process</p> -->
+								<p>
+									By diagonalizing the diabatic Hamiltonian, the adiabatic states, denoted as \(
+									|S^* \rangle \) and \( |TT^*\rangle \), are obtained.
+									<!-- singlet exciton states are closely aligned with: -->
+								</p>
+								<!-- <ul> \( S^{Bright} = \frac{1}{\sqrt{2}} (|S_1 S_0\rangle + |S_0 S_1\rangle )
+									\) and \( S^{Dark} = \frac{1}{\sqrt{2}} (|S_1 S_0\rangle - |S_0 S_1\rangle )
+									\).</li>
+								</ul> -->
+								<p>
+									The singlet-fission rate is approximately proportional to the square of the
+									first-order derivative coupling vector's magnitude.
+									<!-- The scalar product in Equation
+									can be computed efficiently using automatic
+									differentiation and PYSEQM. -->
+								</p>
+								\[
+								\vec{\tau} = \langle S^* | \nabla | TT^*\rangle = \sum_{i=S_0S_1,S_1S_0,\ldots,TT}
+								C^{\text{exciton}}_i \nabla C_i^{\text{triplet}}
+								\]
+
+								\[
+								\vert T_{RP} \vert^2_{\text{NAC}} = \frac{1}{2} \vert \langle
+								{S^{\text{bright*}}} | \nabla | {TT^*} \rangle\vert^2 + \vert \langle
+								{S^{\text{dark*}}} | \nabla | {TT^*} \rangle \vert^2
+								\]
+								<img style="width: 60%;" src="../nsd/PBI_non-adiabatic.png">
+								<p>
+									Shared features with scan of norm of non adiabatic coupling vector from Farag
+									and
+									Krylov
+								</p>
+							</div>
+						</div>
+						<div class="column" style="font-size: x-large;text-align: left;">
+							<ul>
+								<li>Used PySEQM for semi-empirical calculations.</li>
+								<li>PySEQM utilizes a PyTorch backend.</li>
+								<li>Automatic differentiation is employed for efficient gradient calculations.</li>
+							</ul>
+							<h4> Autograd</h4>
+							<ul>
+								<img style="width: 40%;" src="nsd/Autograd.png">
+								<li>Forward Mode:
+									<ul>
+										<li>Evaluates the computational graph during forward propagation.</li>
+										<li>Tracks operations and inputs for each variable.</li>
+									</ul>
+								</li>
+								<li>Backward Mode:
+									<ul>
+										<li>Traverses the computational graph in reverse order during
+											backpropagation.
+										</li>
+										<li>Applies the <span class="highlight">chain rule</span> to compute
+											gradients
+											efficiently.</li>
+									</ul>
+								</li>
+							</ul>
+
+
+						</div>
+
+					</div>
+				</div>
+				<div class="footer">[1] M. H. Farag and A. I. Krylov, The Journal of Physical Chemistry C 122, 25753
+					(2018).</div>
+			</section>
+			<section data-background-color="white">
+				<h3>Functionality optimisation</h3>
+				<div class="wrap">
+					<div class="grid vertical-align">
+						<div class="column" style="font-size: x-large;">
+							<ul>
+								<li>
+									<p>The diabatic coupling \( T_{RP} \) is defined as:
+										\( T_{RP} = \left \vert \langle l_{A} | l_{B} \rangle \langle l_{A} | h_{B}
+										\rangle
+										- \langle h_{A} | h_{B} \rangle \langle h_{A} | l_{B} \rangle \right \vert.
+										\)
+									</p>
+								</li>
+								<li>
+									<p><strong>Functionality optimization</strong> using a custom objective
+										function \( L(x) \).</p>
+								</li>
+								<li>
+									<p>The gradients for \( L(x) \) are computed automatically using an
+										<strong>algorithmic differentiation framework</strong>, enabling efficient
+										optimization.
+									</p>
+								</li>
+								<li>
+									<p>The optimization minimizes the objective function \( L(x) \), which is
+										expressed
+										as:
+
+										\( L(x) = E(x) - \omega \cdot \log(|T_{RP}|^2(x)). \)</p>
+								</li>
+								<li>
+									<p>The ground state energy component \( E(x) \) ensures that the molecular
+										conformation
+										is physically plausible</p>
+								</li>
+							</ul>
+
+						</div>
+						<div class="column">
+							<div class="bg-white shadow">
+
+								<img src="../newSD/thesis/ConT_PBI.png">
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section data-background-color="white">
+				<h2>Functionality optimisation</h2>
+				<div class="wrap">
+					<div class="grid ">
+						<div class="column" style="font-size: x-large;">
+							<ul>
+								<li>Searched for PBI dimer structures with high effective singlet fission
+									coupling:
+									<ul>
+										<li>500 optimizations conducted, followed by PCA
+											to analyze resulting dimer structures.</li>
+										<li>Results grouped into 4 clusters based on structural characteristics:
+										</li>
+										<ul>
+											<li><strong>Cluster 2:</strong>
+												<ul>
+													<li>Highest mean effective SF coupling.</li>
+													<li>Monomers have twist, stacking motif with
+														translation in both the \( x \)- and \( y \)-directions, and
+														rotation along the \( z \)-axis.</li>
+												</ul>
+											</li>
+											<li><strong>Cluster 3:</strong>
+												<ul>
+													<li>Exhibits curvature and strong translation along the \( x
+														\)-axis.</li>
+												</ul>
+											</li>
+											<li><strong>Clusters 1 and 4:</strong>
+												<ul>
+													<li>Nearly planar structures.</li>
+													<li>Show rotation around the \( z \)-axis and relative
+														translations
+														of monomers in the \( x \)- and \( y \)-directions.</li>
+												</ul>
+											</li>
+										</ul>
+									</ul>
+								</li>
+							</ul>
+							<div style="display: flex; justify-content: space-between;">
+								<table style="width: 45%; border-collapse: collapse; margin-right: 10px;">
+									<thead>
+										<tr>
+											<th style="border: 1px solid black; padding: 8px;">Name</th>
+											<th style="border: 1px solid black; padding: 8px;">\(2 E_{T_{1}} -
+												E_{S_{1}}\) in eV</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="border: 1px solid black; padding: 8px;">PBI-C1\(_A\)</td>
+											<td style="border: 1px solid black; padding: 8px;">-0.0682</td>
+										</tr>
+										<tr>
+											<td style="border: 1px solid black; padding: 8px;">PBI-C1\(_B\)</td>
+											<td style="border: 1px solid black; padding: 8px;">-0.0663</td>
+										</tr>
+										<tr>
+											<td style="border: 1px solid black; padding: 8px;">PBI-C2\(_A\)</td>
+											<td style="border: 1px solid black; padding: 8px;">-0.0795</td>
+										</tr>
+										<tr>
+											<td style="border: 1px solid black; padding: 8px;">PBI-C2\(_B\)</td>
+											<td style="border: 1px solid black; padding: 8px;">-0.0714</td>
+										</tr>
+									</tbody>
+								</table>
+
+								<table style="width: 45%; border-collapse: collapse;">
+									<thead>
+										<tr>
+											<th style="border: 1px solid black; padding: 8px;">Name</th>
+											<th style="border: 1px solid black; padding: 8px;">\(2 E_{T_{1}} -
+												E_{S_{1}}\) in eV</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="border: 1px solid black; padding: 8px;">PBI-C3\(_A\)</td>
+											<td style="border: 1px solid black; padding: 8px;">0.2993</td>
+										</tr>
+										<tr>
+											<td style="border: 1px solid black; padding: 8px;">PBI-C3\(_B\)</td>
+											<td style="border: 1px solid black; padding: 8px;">0.3002</td>
+										</tr>
+										<tr>
+											<td style="border: 1px solid black; padding: 8px;">PBI-C4\(_A\)</td>
+											<td style="border: 1px solid black; padding: 8px;">-0.0676</td>
+										</tr>
+										<tr>
+											<td style="border: 1px solid black; padding: 8px;">PBI-C4\(_B\)</td>
+											<td style="border: 1px solid black; padding: 8px;">0.2905</td>
+										</tr>
+										<tr>
+											<td style="border: 1px solid black; padding: 8px;">PBI-Planar</td>
+											<td style="border: 1px solid black; padding: 8px;">0.3154</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+
+						</div>
+						<div class="column">
+							<div class="bg-white shadow" style="font-size: large;">
+								<img src="PCA3.png" style="width:100%">
+								<img src="PCA.png">
+								<img src="PCA2.png">
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</section>
+			<section data-background-color="white" data-background-image="AllPics.png" data-background-opacity="0.2">
+				<h3>Singlet Fission Study in B-N substituted perylene </h3>
+				<div class="wrap">
+					<div class="grid">
+						<div class="column">
+
+							<div class="content" style="font-size: x-large;">
+
+								<p>The study aimed to increase the singlet fission rate through doping.</p>
+
+								<ol>
+									<li>
+										<strong>Substitution Strategy:</strong>
+										<ul>
+											<li>All possible substitutions were enumerated where two adjacent carbon
+												atoms were replaced by boron-nitrogen (B-N).</li>
+											<li>The resulting molecules were labeled as
+												<em>perylene-(BN)<sub>n</sub>-<i>i</i></em>, with:
+												<ul>
+													<li>\( n \): The number of B-N substitutions.</li>
+													<li>\( i = 0, 1, 2, \ldots \): Enumeration of structural
+														isomers.
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<strong>Generated Molecules:</strong>
+										<ul>
+											<li>\((BN)_1\)-substitution resulted in 13 unique molecules.</li>
+											<li>\((BN)_2\)-substitution resulted in 256 unique molecules.</li>
+										</ul>
+									</li>
+
+								</ol>
+							</div>
+
+						</div>
+						<div class="column" style="font-size: x-large;">
+							<div class="bg-white shadow">
+								<li>
+									<strong>Property Calculations:</strong>
+									<ul>
+										<li>Vertical singlet and triplet excitation energies were computed at the
+											CASPT2 and TD-DFT levels of theory.</li>
+									</ul>
+								</li>
+
+
+								<img style="width: 70%;"
+									src="nsd/singlet_vs_triplet_by_resonance_group.png">
+								<img style="width: 70%;"
+									src="nsd/singlet_vs_triplet_by_resonance_group_caspt2.png">
+
+							</div>
+						</div>
+						<div class="column" style="font-size: x-large;">
+							<div class="bg-white shadow">
+								<li>
+									<strong>Methodology:</strong>
+									<ul>
+										<li>Searched slipped stacking geometries of molecular dimers to
+											achieve higher SF rates.</li>
+										<ul>
+											<li>Diabatic method.</li>
+											<li>Non-Adiabatic Coupling (NAC) method.</li>
+										</ul>
+								</li>
+
+								</ul>
+								</li>
+								<div class="bg-white shadow">
+									<!-- <img style="width: 65%;"
+										src="../newSD/thesis/Figures/local_maxima_of_sf_rate_fock.png">
+									<img style="width: 65%;"
+										src="../newSD/thesis/Figures/local_maxima_of_sf_rate_non-adiabatic.png"> -->
+
+
+									<img style="width: 65%;"
+										src="nsd/local_maxima_of_sf_rate_fock.png">
+									<img style="width: 65%;"
+										src="nsd/local_maxima_of_sf_rate_non-adiabatic.png">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section data-background-color="white">
+				<h3>Best Isomer</h3>
+				<div class="wrap">
+					<div class="grid ">
+						<div class="column" style="font-size: x-large;">
+							<ul>
+								<li>
+									<strong>\(S_1\) excitation energy range:</strong>
+									\( 1.8~\text{eV} \leq E(S_1, \text{CASPT2}) \leq 3.0~\text{eV} \).
+									<p>This ensures the molecule absorbs in then region where the solar
+										spectrum
+										has
+										high intensity.</p>
+								</li>
+								<li>
+									<strong>\(T_1\) state energy constraint:</strong>
+									<p>\( 0.8~\text{eV} < E(T_1, \text{TD-DFT}) \) To ensure solar cell operation with a
+											singlet fission layer.</p>
+								</li>
+								<!-- The energy of the \(T_1\) state,
+												which limits the maximum voltage of a solar cell operating with a singlet
+												fission layer, should satisfy .</p> </li> -->
+								<li>
+									<strong>Condition for singlet fission energetics:</strong>
+									<p>Singlet fission must be exoergic or at most slightly endoergic.
+										\( -0.3~\text{eV} < \Delta E_{ST}(\text{CASPT2}), \Delta E_{ST}(\text{TD-DFT}) <
+											0.2~\text{eV} \) pass this test.</p>
+								</li>
+								<li>
+									<strong>\(T_2\) state constraint:</strong>
+									<p></p>The \(T_2 > S_1\) state to exclude intersystem crossing as a
+									competing loss channel with singlet fission.
+									The requirement is \( \Delta E_{TT}(\text{CASPT2}), \Delta E_{TT}(\text{TD-DFT})
+									< -0.2~\text{eV} \).<p>
+								</li>
+							</ul>
+
+
+						</div>
+						<div class="column">
+							<div class="bg-white shadow" style="font-size: x-large;">
+								<ul>
+									<li>Only one candidate, BN2-112, remains.</li>
+									<li>BN2-112 has desirable properties, including:
+										<ul>
+											<li>A Lewis structure without formal charges.</li>
+											<li>Moderate biradical character of \( y_0 = 0.06 \), compared to a
+												range of \( y_0 = 0.01 \) to \( 0.66 \) for the full set of isomers.
+											</li>
+											<li>An oscillator strength \( f(S_0 \to S_1) = 0.27 \), which is close
+												to undoped perylene (\( 0.30 \)).</li>
+										</ul>
+									</li>
+								</ul>
+
+								<!-- <img style="width: 45%;" src="../newSD/thesis/Figures/selected_isomers.png">
+								<img style="width: 45%;"
+									src="../newSD/thesis/Figures/representative_lewis_structures.png"> -->
+
+									<img style="width: 45%;" src="nsd/selected_isomers.png">
+								<img style="width: 45%;"
+									src="nsd/representative_lewis_structures.png">
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
 
 		</div>
 	</div>
@@ -292,7 +1276,9 @@ Auto-fill & Equal height === */
 			height: 720,
 			scale: 0.5,
 			slideNumber: true,
-
+			autoSlide: 3000,
+			loop: true,
+preloadIframes: true,
 
 			// Learn about plugins: https://revealjs.com/plugins/
 			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
@@ -396,7 +1382,7 @@ Auto-fill & Equal height === */
 			scene = new THREE.Scene();
 			//scene.rotation.y = 0.1; // avoid flying objects occluding the sun
 			scene.rotation.x = Math.PI / 8;
-			scene.rotation.y = -Math.PI/6;
+			scene.rotation.y = -Math.PI / 6;
 			scene.position.x = - (nelectron * 10) / 5;
 			scene.position.y = - (nelectron * 5) / 5;
 
@@ -942,9 +1928,9 @@ Auto-fill & Equal height === */
 				scene.add(mesh3);
 
 				const loader = new FontLoader();
-				loader.load('fonts/Noto_Sans_Math_Regular.json', function (font) {
-				//loader.load('Noto_Sans_Math_Regular.json', function (font) {
-				
+				//loader.load('fonts/Noto_Sans_Math_Regular.json', function (font) {
+				loader.load('Noto_Sans_Math_Regular.json', function (font) {
+
 					const color = 0x000000;
 					const matDark = new THREE.LineBasicMaterial({
 						color: color,
@@ -1048,11 +2034,11 @@ Auto-fill & Equal height === */
 
 						const tex = "\\alpha \\beta";
 						div.innerHTML = 'ifjoerijfrij';
-						if(j%2 == 0){
+						if (j % 2 == 0) {
 							slaterDeterminant += DecimalToFraction(cg) + "\\vert" + sl + "\\rangle ";
 
 						}
-						else{
+						else {
 							slaterDeterminant += DecimalToFraction(cg) + "\\vert" + sl + "\\rangle \\\\";
 
 						}
@@ -1230,11 +2216,11 @@ Auto-fill & Equal height === */
 
 
 
-		var output = document.getElementById("demo");
+		// var output = document.getElementById("demo");
 
-		var output2 = document.getElementById("demo2");
+		// var output2 = document.getElementById("demo2");
 
-		output.innerHTML = slider.value;
+		// output.innerHTML = slider.value;
 
 		slider.oninput = function () {
 
@@ -1495,17 +2481,17 @@ Auto-fill & Equal height === */
 
 		function superDlean() {
 
-for (let i = 0; i < 2000; i++) {
+			for (let i = 0; i < 2000; i++) {
 
-	if (scene.children.length > 1) {
+				if (scene.children.length > 1) {
 
-		scene.remove(scene.children[scene.children.length - 1]);
+					scene.remove(scene.children[scene.children.length - 1]);
 
-	}
+				}
 
-}
+			}
 
-}
+		}
 
 		function makeImage(i, p, j, q) {
 			return new Promise((resolve) => {
@@ -1632,11 +2618,11 @@ for (let i = 0; i < 2000; i++) {
 
 
 		function onWindowResized() {
-			renderer.setSize(window.innerWidth, window.innerHeight);
+			//renderer.setSize(window.innerWidth, window.innerHeight);
 			//camera.aspect = window.innerWidth / window.innerHeight;
 			//camera.updateProjectionMatrix();
-			const exporter = new EXRExporter();
-			renderer.setRenderTarget;
+			//const exporter = new EXRExporter();
+			//renderer.setRenderTarget;
 			//renderTarget.texture.type = THREE.HalfFloatType;
 			//const option = {type: THREE.HalfFloatType, compression}
 			renderer.render(scene, camera);
@@ -1651,8 +2637,8 @@ for (let i = 0; i < 2000; i++) {
 
 			cubeCamera.rotation.x += 0.1;
 			//cubeCamera.update( renderer, scene );
-			scene.rotation.x = 0.4 + 0.1*Math.cos(0.005*(msTime%10000));
-			scene.rotation.y = 0.4 + 0.1*Math.cos(0.005*(msTime%10000));
+			scene.rotation.x = 0.4 + 0.1 * Math.cos(0.005 * (msTime % 10000));
+			scene.rotation.y = 0.4 + 0.1 * Math.cos(0.005 * (msTime % 10000));
 			controls.update();
 			renderer.render(scene, camera);
 			//stats.update();
@@ -1673,4 +2659,4 @@ for (let i = 0; i < 2000; i++) {
 	<script src="cgcCALC.js"></script>
 </body>
 
-</html>
+</html>F
