@@ -332,38 +332,38 @@ Auto-fill & Equal height === */
 								<div class="slidecontainer">
 									<table style="width:100%; font-size: 25px;">
     <tr>
-        <td>Number of electrons</td>
-        <td><input type="text" id="nelec" name="nelec" value="6"></td>
-        <td><span id="nm1">6</span></td>
-    </tr>
-    <tr>
-        <td>Select the final S</td>
-        <td>
-            <input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange">
-        </td>
-        <td><span id="nm2">0</span></td>
-    </tr>
-    <tr>
-        <td>Select the pathway of S for generating the M network</td>
-        <td>
-            <input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange3">
-        </td>
-        <td><span id="nm3">0</span></td>
-    </tr>
-    <tr>
-        <td>Select the pathway of M</td>
-        <td>
-            <input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange4">
-        </td>
-        <td><span id="nm4">0</span></td>
-    </tr>
-    <tr>
-        <td>Select the pathway of final M</td>
-        <td>
-            <input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange5">
-        </td>
-        <td><span id="nm5">0</span></td>
-    </tr>
+											<td>Number of electrons</td>
+											<td><input type="text" id="nelec" name="nelec" value="6"></td>
+											<td><span id="nm1">6</span></td>
+										</tr>
+										<tr>
+											<td>Select the final \(S\) (Spin)</td>
+											<td>
+												<input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange">
+											</td>
+											<td><span id="nm2">0</span></td>
+										</tr>
+										<tr>
+											<td>Select the pathway of \(S\) for combination of electrons</td>
+											<td>
+												<input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange3">
+											</td>
+											<td><span id="nm3">0</span></td>
+										</tr>
+										<tr>
+											<td>Select the pathway of \(M\) (High Spin State)</td>
+											<td>
+												<input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange4">
+											</td>
+											<td><span id="nm4">0</span></td>
+										</tr>
+										<tr>
+											<td>Select  final \(M\)</td>
+											<td>
+												<input type="range" min="0" max="20" value="0" class="slider" style="width: 50%;" id="myRange5">
+											</td>
+											<td><span id="nm5">0</span></td>
+										</tr>
 </table>
 
 									<br><br>
@@ -1432,15 +1432,15 @@ preloadIframes: true,
 			// renderer.toneMapping = THREE.ACESFilmicToneMapping;
 			// renderer.setClearColor(0x000000, 0);
 			// document.body.appendChild(renderer.domElement);
-			// window.addEventListener('resize', onWindowResized);
+			window.addEventListener('resize', onWindowResized);
 		}
 
 		function init2() {
 
 			camera = new THREE.PerspectiveCamera(45, 1, 1, 1000);
 			//camera = new THREE.PerspectiveCamera( 30, 1, 1, 1000 );
-			console.log("IG*C");
-			console.log(can.parentElement.clientWidth);
+			//camera.position.z = can.parentElement.clientWidth / 60 + (nelectron * 20) / 2;
+
 			camera.position.z = 20 + (nelectron * 20) / 2;
 			camera.position.y = 0;
 			//camera.position.x = 10;
@@ -1569,6 +1569,20 @@ preloadIframes: true,
 				const material3 = new THREE.MeshStandardMaterial({
 					roughness: 0.1,
 					color: 0x00ff00,
+					metalness: 0
+				});
+
+				const material4 = new THREE.MeshStandardMaterial({
+					roughness: 0.1,
+					color: 0xff0000,
+					opacity: 0.4,
+					transparent: true,
+					metalness: 0
+				});
+
+				const material5 = new THREE.MeshStandardMaterial({
+					roughness: 0.1,
+					color: 0xff0000,
 					metalness: 0
 				});
 
@@ -1727,23 +1741,23 @@ preloadIframes: true,
 
 
 
-				//console.log("mad2");
-				//console.log(mad2);
-				//
-				//  for(let i = 0; i < mad2[mmpath].length; i++){
-				//
-				//    sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 1, 8 ), material3 );
-				//
-				//    sphere.position.x = i*5;
-				//
-				//    sphere.position.y = mad[mpath][i]*5 -10;
-				//
-				//    sphere.position.z = mad2[mmpath][i]*2.5 +20;
-				//
-				//    scene.add( sphere );
-				//
-				//  }
-				//
+				console.log("mad2");
+				console.log(mad2);
+
+				for (let i = 0; i < mad2[mmpath].length; i++) {
+
+					sphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1.5, 8), material4);
+
+					sphere.position.x = i * 5;
+
+					sphere.position.y = mad[mpath][i] * 5 - 10;
+
+					sphere.position.z = mad2[mmpath][i] * 2.5 + 20;
+
+					scene.add(sphere);
+
+				}
+
 
 
 				for (let mi = 0; mi < mad2.length; mi++) {
@@ -2061,14 +2075,14 @@ preloadIframes: true,
 								if (j == mmpath) {
 									//console.log(mad2[j][i] -mad2[j][i-1] )
 									if (mad2[j][i] - mad2[j][i - 1] != 1) {
-										//textR("\u2191",   material3, font,  -10 - nelectron*2 + 2*i,  -10,  10 -2*mad2.length+ 3*j, 2,   -Math.PI/2,0,0);
+										//textR("\u2191", material5, font, 0 - nelectron * 0 + 5 * i, -10, 28 - mad2[j][i] + 0 * mad2.length + 0 * j, 3, 0, 0, 0);
 										//textR("b",   material3, font,  -10 - nelectron*2 + 2*i,  -10,  10 -2*mad2.length+ 3*j, 2,   -Math.PI/2,0,0);
-										sl += "\\downarrow";
+										sl += "{\\color{red}\\downarrow}";
 									}
 									else {
-										//textR("\u2193",   material3, font,  -10  - nelectron*2 + 2*i,  -10, 10 -2*mad2.length+  3*j, 2,   -Math.PI/2,0,0);
+										//textR("\u2193", material5, font, 0 - nelectron * 0 + 5 * i, -10, 28 - mad2[j][i] + 0 * mad2.length + 0 * j, 3, 0, 0, 0);
 										//textR("a",   material3, font,  -10 - nelectron*2 + 2*i,  -10,  10 -2*mad2.length+ 3*j, 2,   -Math.PI/2,0,0);
-										sl += "\\uparrow";
+										sl += "{\\color{red}\\uparrow}";
 									}
 								}
 								else {
@@ -2289,6 +2303,8 @@ preloadIframes: true,
 		// output.innerHTML = slider.value;
 
 		slider.oninput = function () {
+
+			//output2.innerHTML = this.value;
 			var vv1 = document.getElementById("nm2");
 			vv1.innerHTML = this.value;
 
@@ -2326,6 +2342,7 @@ preloadIframes: true,
 
 		slider3.oninput = function () {
 
+			//output.innerHTML = this.value;
 			var vv1 = document.getElementById("nm3");
 			vv1.innerHTML = this.value;
 
@@ -2360,6 +2377,7 @@ preloadIframes: true,
 
 		slider4.oninput = function () {
 
+			//output.innerHTML = this.value;
 
 			mmpath = parseInt(this.value);
 			var vv1 = document.getElementById("nm4");
@@ -2390,6 +2408,7 @@ preloadIframes: true,
 
 		slider5.oninput = function () {
 
+			//output.innerHTML = this.value;
 
 			finalM = parseInt(this.value);
 
@@ -2557,34 +2576,35 @@ preloadIframes: true,
 		function makeImage(i, p, j, q) {
 			return new Promise((resolve) => {
 				setTimeout(() => {
+					download = 0;
 					if (download == 1) {
 						bail();
 					}
 					resolve(i);
-				}, 500);
+				}, 2000);
 			});
 		}
 		async function f1() {
 			for (let i = 0; i < nelectron / 2 + 1; i++) {
 				for (let p = 0; p < maxpath; p++) {
 					for (let j = 0; j < 2 * i + 1; j++) {
-						//  for (let q = 0; q < maxmpath; q++){
-						//let j = 0;
-						let q = 0;
-						console.log("rioejro")
-						console.log(i, p, j, q);
-						finalS = i;
-						mpath = p;
-						finalM = j;
-						mmpath = q;
-						clean();
-						firl(nelectron, i);
-						const a = await makeImage(i, p, j, q);
-						//await setTimeout(bail,10000);
-						//firl(nelectron , finalS);
-						//sail();
+						for (let q = 0; q < maxmpath; q++) {
+							//let j = 0;
+							//let q = 0;
+							console.log("rioejro")
+							console.log(i, p, j, q);
+							finalS = i;
+							mpath = p;
+							finalM = j;
+							mmpath = q;
+							clean();
+							firl(nelectron, i);
+							const a = await makeImage(i, p, j, q);
+							//await setTimeout(bail,10000);
+							//firl(nelectron , finalS);
+							//sail();
 
-						//}
+						}
 					}
 				}
 			}
@@ -2598,6 +2618,7 @@ preloadIframes: true,
 			if (keyPressed == 68) {  //uparrow
 				console.log(maxmpath)
 				console.log(maxpath)
+				renderer.setAnimationLoop(animation2);
 				f1()
 			}
 
@@ -2698,8 +2719,19 @@ preloadIframes: true,
 
 			cubeCamera.rotation.x += 0.1;
 			//cubeCamera.update( renderer, scene );
-			scene.rotation.x = 0.4 + 0.1 * Math.cos(0.005 * (msTime % 10000));
-			scene.rotation.y = 0.4 + 0.1 * Math.cos(0.005 * (msTime % 10000));
+			scene.rotation.x = 0.4 + 0.1 * Math.cos(0.001 * (msTime % 1000000));
+			scene.rotation.y = 0.4 + 0.1 * Math.cos(0.001 * (msTime % 1000000));
+			controls.update();
+			renderer.render(scene, camera);
+			//stats.update();
+		}
+
+		function animation2(msTime) {
+
+			//cubeCamera.rotation.x += 0.1;
+			//cubeCamera.update( renderer, scene );
+			//scene.rotation.x = 0.4 + 0.1 * Math.cos(0.001 * (msTime % 1000000));
+			//scene.rotation.y = 0.4 + 0.1 * Math.cos(0.001 * (msTime % 1000000));
 			controls.update();
 			renderer.render(scene, camera);
 			//stats.update();
@@ -2716,7 +2748,6 @@ preloadIframes: true,
 		}
 
 	</script>
-
 	<script src="cgcCALC.js"></script>
 </body>
 
